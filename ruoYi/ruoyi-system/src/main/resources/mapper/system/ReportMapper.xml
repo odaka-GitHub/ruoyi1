@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.ReportMapper">
+
+	<resultMap type="Report" id="ReportResult">
+		<id     property="id"        column="id"       />
+		<result property="budgetName"      column="budgetName"     />
+		<result property="budgetType"      column="budgetType"     />
+		<result property="sum"      column="sum"     />
+		<result property="itemCost"        column="itemCost"        />
+		<result property="addedTax"      column="addedTax"     />
+		<result property="unit"        column="unit"        />
+		<result property="creator"        column="creator"        />
+		<result property="creatorTime"        column="creatorTime"        />
+		<result property="projectSources"        column="projectSources"        />
+		<result property="status"        column="status"        />
+		<result property="process"        column="process"        />
+	</resultMap>
+	
+	<sql id="selectReportVo">
+        select id, budgetName, budgetType, sum, itemCost, addedTax,unit,creator,creatorTime,projectSources,status,process
+		from report
+    </sql>
+	
+	<select id="selectReportList" parameterType="Report" resultMap="ReportResult">
+	    <include refid="selectReportVo"/>
+		<where>
+			<if test="budgetType != null and budgetType != ''">
+				AND budgetType like concat('%', #{budgetType}, '%')
+			</if>
+			<if test="unit != null and unit != ''">
+				AND unit = #{unit}
+			</if>
+			<if test="budgetName != null and budgetName != ''">
+				AND budgetName like concat('%', #{budgetName}, '%')
+			</if>
+		</where>
+	</select>
+	
+	<select id="selectReportAll" resultMap="ReportResult">
+		<include refid="selectReportVo"/>
+	</select>
+	
+	<select id="selectReportById" parameterType="Long" resultMap="ReportResult">
+		<include refid="selectReportVo"/>
+		where id = #{id}
+	</select>
+	
+ 	<delete id="deleteReportByIds" parameterType="Long">
+ 		delete from report where id in
+ 		<foreach collection="array" item="id" open="(" separator="," close=")">
+ 			#{id}
+        </foreach> 
+ 	</delete>
+ 	
+ 	<update id="updateReport" parameterType="Report">
+ 		update report
+ 		<set>
+ 			<if test="budgetName != null and budgetName != ''">budgetName = #{budgetName},</if>
+ 			<if test="budgetType != null and budgetType != ''">budgetType = #{budgetType},</if>
+ 			<if test="sum != null and sum != ''">sum = #{sum},</if>
+ 			<if test="itemCost != null and itemCost != ''">itemCost = #{itemCost},</if>
+			<if test="addedTax != null and addedTax != ''">addedTax = #{addedTax},</if>
+ 			<if test="unit != null">unit = #{unit},</if>
+			<if test="creator != null and creator != ''">creator = #{creator},</if>
+			<if test="creatorTime != null and creatorTime != ''">creatorTime = #{creatorTime},</if>
+			<if test="projectSources != null and projectSources != ''">projectSources = #{projectSources},</if>
+			<if test="status != null and status != ''">status = #{status},</if>
+			<if test="process != null and process != ''">process = #{process}</if>
+ 		</set>
+ 		where id = #{id}
+	</update>
+ 	
+ 	<insert id="insertReport" parameterType="Report" useGeneratedKeys="true" keyProperty="id">
+ 		insert into report(
+ 			<if test="id != null and id != 0">id,</if>
+ 			<if test="budgetName != null and budgetName != ''">budgetName,</if>
+ 			<if test="budgetType != null and budgetType != ''">budgetType,</if>
+ 			<if test="sum != null and sum != ''">sum,</if>
+ 			<if test="itemCost != null and itemCost != ''">itemCost,</if>
+		    <if test="addedTax != null and addedTax != ''">addedTax,</if>
+ 			<if test="unit != null and unit != ''">unit,</if>
+			<if test="creator != null and creator != ''">creator,</if>
+			creatorTime,
+			<if test="projectSources != null and projectSources != ''">projectSources,</if>
+			<if test="status != null and status != ''">status,</if>
+			<if test="process != null and process != ''">process</if>
+ 		)values(
+ 			<if test="id != null and id != 0">#{id},</if>
+ 			<if test="budgetName != null and budgetName != ''">#{budgetName},</if>
+ 			<if test="budgetType != null and budgetType != ''">#{budgetType},</if>
+ 			<if test="sum != null and sum != ''">#{sum},</if>
+ 			<if test="itemCost != null and itemCost != ''">#{itemCost},</if>
+			<if test="addedTax != null and addedTax != ''">#{addedTax},</if>
+ 			<if test="unit != null and unit != ''">#{unit},</if>
+			<if test="creator != null and creator != ''">#{creator},</if>
+			now(),
+			<if test="projectSources != null and projectSources != ''">#{projectSources},</if>
+			<if test="status != null and status != ''">#{status},</if>
+			<if test="process != null and process != ''">#{process}</if>
+ 		)
+	</insert>
+
+</mapper> 

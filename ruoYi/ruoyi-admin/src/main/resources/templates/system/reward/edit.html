@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+	<th:block th:include="include :: header('修改酬金计提明细')" />
+</head>
+<body class="white-bg">
+	<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+		<form class="form-horizontal m" id="form-reward-edit" th:object="${reward}">
+			<input id="id" name="id" type="hidden" th:field="*{id}"/>
+			<div class="form-group">
+				<label class="col-sm-3 control-label is-required">地区：</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" name="area" id="area" th:field="*{area}" required>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label is-required">县市：</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" name="counties" id="counties" th:field="*{counties}" required>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label is-required">区域营销：</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" name="regional" id="regional" th:field="*{regional}" required>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label is-required">渠道类型：</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" name="channelType" id="channelType" th:field="*{channelType}" required>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label is-required">渠道子类型：</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" name="channelType1" id="channelType1" th:field="*{channelType1}" required>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">代销商编号：</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" name="merchantId" id="merchantId" th:field="*{merchantId}" required>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">代销商：</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" name="merchant" id="merchant" th:field="*{merchant}" required>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">科目类型：</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" name="subjectType" id="subjectType" th:field="*{subjectType}" required>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">业务类型：</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" name="businessType" id="businessType" th:field="*{businessType}" required>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">品牌：</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" name="brand" id="brand" th:field="*{brand}" required>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">平均单价：</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" name="averagePrice" id="averagePrice" th:field="*{averagePrice}" required>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">计算数量：</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" name="count" id="count" th:field="*{count}" required>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">酬金金额（含税）：</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" name="rewardSum" id="rewardSum" th:field="*{rewardSum}" required>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">实付金额：</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" name="paidSum" id="paidSum" th:field="*{paidSum}" required>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">计算依据：</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" name="calculation" id="calculation" th:field="*{calculation}" required>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">酬金金额（不含税）：</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" name="rewardSum1" id="rewardSum1" th:field="*{rewardSum1}" required>
+				</div>
+			</div>
+
+		</form>
+	</div>
+	<th:block th:include="include :: footer" />
+	<script type="text/javascript">
+		var prefix = ctx + "system/reward";
+		
+		function submitHandler() {
+				if ($.validate.form()) {
+	        	$.operate.save(prefix + "/edit", $('#form-reward-edit').serialize());
+	        }
+	    }
+	</script>
+</body>
+</html>

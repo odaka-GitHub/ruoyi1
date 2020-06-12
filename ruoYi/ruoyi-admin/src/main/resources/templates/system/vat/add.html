@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+	<th:block th:include="include :: header('新增专票')" />
+</head>
+<body class="white-bg">
+	<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+		<form class="form-horizontal m" id="form-vat-add">
+			<div class="form-group">
+				<label class="col-sm-3 control-label is-required">行号(必输)：</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" name="id" id="id" required>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label is-required">发票种类代码：</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" name="invoiceTypeCode" id="invoiceTypeCode" required>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label is-required">发票代码：</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" name="invoiceCode" id="invoiceCode" required>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label is-required">发票号码：</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" name="invoiceNum" id="invoiceNum" required>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label is-required">发票页码：</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" name="invoicePagination" id="invoicePagination" required>
+				</div>
+			</div>
+			<!--<div class="form-group">
+				<label class="col-sm-3 control-label is-required">发票日期</label>
+				<div class="col-sm-8">
+					<input type="date" name="invoiceDate" class="form-control" id="invoiceDate">
+				</div>
+			</div>-->
+			<div class="form-group">
+				<label class="col-sm-3 control-label">发票日期：</label>
+				<div class="col-sm-8">
+					<div class="input-group date">
+						<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+						<input name="invoiceDate" class="form-control" placeholder="yyyy-MM-dd" type="text" required>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">校验码后6位：</label>
+				<div class="col-sm-8">
+					<textarea id="checkCode" name="checkCode" class="form-control"></textarea>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">购方税号：</label>
+				<div class="col-sm-8">
+					<textarea id="taxNum" name="taxNum" class="form-control"></textarea>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">红色信息表号：</label>
+				<div class="col-sm-8">
+					<textarea id="redMessage" name="redMessage" class="form-control"></textarea>
+				</div>
+			</div>
+		</form>
+	</div>
+	<th:block th:include="include :: footer" />
+	<th:block th:include="include :: datetimepicker-js" />
+	<script type="text/javascript">
+		var prefix = ctx + "system/vat"
+		$("#form-vat-add").validate({
+			focusCleanup: true
+		});
+
+		function submitHandler() {
+			if ($.validate.form()) {
+				$.operate.save(prefix + "/add", $('#form-vat-add').serialize());
+			}
+		};
+
+		$("input[name='invoiceDate']").datetimepicker({
+			format: "yyyy-mm-dd",
+			minView: "month",
+			autoclose: true
+		});
+	</script>
+</body>
+</html>

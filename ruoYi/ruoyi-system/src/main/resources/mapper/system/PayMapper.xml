@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.PayMapper">
+
+	<resultMap type="Pay" id="PayResult">
+		<id     property="id"        column="id"       />
+		<result property="principal"      column="principal"     />
+		<result property="withhold"      column="withhold"     />
+		<result property="paymentName"      column="paymentName"     />
+		<result property="openingBank"      column="openingBank"     />
+		<result property="openingBank1"        column="openingBank1"        />
+		<result property="bankNum"        column="bankNum"        />
+		<result property="fee"      column="fee"     />
+		<result property="cope"        column="cope"        />
+		<result property="status"      column="status"     />
+		<result property="rewardNum"      column="rewardNum"     />
+		<result property="purpose"      column="purpose"     />
+	</resultMap>
+	
+	<sql id="selectPayVo">
+        select id, principal, withhold, paymentName, openingBank,openingBank1,bankNum, fee,cope,status,rewardNum,purpose	from pay
+    </sql>
+	
+	<select id="selectPayList" parameterType="Pay" resultMap="PayResult">
+	    <include refid="selectPayVo"/>
+		<where>
+			<if test="principal != null and principal != ''">
+				AND principal like concat('%', #{principal}, '%')
+			</if>
+			<if test="paymentName != null and paymentName != ''">
+				AND paymentName = #{paymentName}
+			</if>
+			<if test="bankNum != null and bankNum != ''">
+				AND bankNum like concat('%', #{bankNum}, '%')
+			</if>
+		</where>
+	</select>
+	
+	<select id="selectPayAll" resultMap="PayResult">
+		<include refid="selectPayVo"/>
+	</select>
+	
+	<select id="selectPayById" parameterType="Long" resultMap="PayResult">
+		<include refid="selectPayVo"/>
+		where id = #{id}
+	</select>
+	
+ 	<delete id="deletePayByIds" parameterType="Long">
+ 		delete from pay where id in
+ 		<foreach collection="array" item="id" open="(" separator="," close=")">
+ 			#{id}
+        </foreach> 
+ 	</delete>
+ 	
+ 	<update id="updatePay" parameterType="Pay">
+ 		update pay
+ 		<set>
+ 			<if test="principal != null and principal != ''">principal = #{principal},</if>
+ 			<if test="withhold != null and withhold != ''">withhold = #{withhold},</if>
+ 			<if test="paymentName != null and paymentName != ''">paymentName = #{paymentName},</if>
+			<if test="openingBank != null and openingBank != ''">openingBank = #{openingBank},</if>
+ 			<if test="openingBank1 != null">openingBank1 = #{openingBank1},</if>
+			<if test="bankNum != null and bankNum != ''">bankNum = #{bankNum},</if>
+			<if test="fee != null and fee != ''">fee = #{fee},</if>
+			<if test="cope != null and cope != ''">cope = #{cope},</if>
+			<if test="status != null and status != ''">status = #{status},</if>
+			<if test="rewardNum != null and rewardNum != ''">rewardNum = #{rewardNum},</if>
+			<if test="purpose != null and purpose != ''">purpose = #{purpose}</if>
+ 		</set>
+ 		where id = #{id}
+	</update>
+ 	
+ 	<insert id="insertPay" parameterType="Pay" useGeneratedKeys="true" keyProperty="id">
+ 		insert into pay(
+ 			<if test="id != null and id != 0">id,</if>
+ 			<if test="principal != null and principal != ''">principal,</if>
+ 			<if test="withhold != null and withhold != ''">withhold,</if>
+ 			<if test="paymentName != null and paymentName != ''">paymentName,</if>
+ 			<if test="openingBank != null and openingBank != ''">openingBank,</if>
+		    <if test="openingBank1 != null and openingBank1 != ''">openingBank1,</if>
+ 			<if test="bankNum != null and bankNum != ''">bankNum,</if>
+			<if test="fee != null and fee != ''">fee,</if>
+			<if test="cope != null and cope != ''">cope,</if>
+			<if test="status != null and status != ''">status,</if>
+			<if test="rewardNum != null and rewardNum != ''">rewardNum,</if>
+			<if test="purpose != null and purpose != ''">purpose</if>
+ 		)values(
+ 			<if test="id != null and id != 0">#{id},</if>
+ 			<if test="principal != null and principal != ''">#{principal},</if>
+ 			<if test="withhold != null and withhold != ''">#{withhold},</if>
+ 			<if test="paymentName != null and paymentName != ''">#{paymentName},</if>
+ 			<if test="openingBank != null and openingBank != ''">#{openingBank},</if>
+			<if test="openingBank1 != null and openingBank1 != ''">#{openingBank1},</if>
+ 			<if test="bankNum != null and bankNum != ''">#{bankNum},</if>
+			<if test="fee != null and fee != ''">#{fee},</if>
+			<if test="cope != null and cope != ''">#{cope},</if>
+			<if test="status != null and status != ''">#{status},</if>
+			<if test="rewardNum != null and rewardNum != ''">#{rewardNum},</if>
+			<if test="purpose != null and purpose != ''">#{purpose}</if>
+ 		)
+	</insert>
+
+</mapper> 

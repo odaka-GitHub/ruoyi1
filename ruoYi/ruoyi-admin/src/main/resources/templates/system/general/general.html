@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+	<th:block th:include="include :: header('专票列表')" />
+</head>
+<body class="gray-bg">
+	<div class="container-div">
+		<div class="row">
+			<div class="col-sm-12 search-collapse">
+				<form id="post-form">
+					<div class="select-list">
+						<ul>
+							<li>
+								发票种类代码：<input type="text" name="invoiceTypeCode"/>
+							</li>
+							<li>
+								购买方名称：<input type="text" name="taxName"/>
+							</li>
+							<li>
+								销售方名称：<input type="text" name="saleName"/>
+							</li>
+							<li>
+								<a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+							    <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+							</li>
+						</ul>
+					</div>
+				</form>
+			</div>
+			
+			<div class="btn-group-sm" id="toolbar" role="group">
+				<a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:general:add">
+	                <i class="fa fa-plus"></i> 新增
+	            </a>
+				<a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="system:general:edit">
+		            <i class="fa fa-edit"></i> 修改
+		        </a>
+				<a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:general:remove">
+		            <i class="fa fa-remove"></i> 删除
+		        </a>
+				<a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:general:export">
+		            <i class="fa fa-download"></i> 导出
+		        </a>
+	        </div>
+	        
+	        <div class="col-sm-12 select-table table-striped">
+			    <table id="bootstrap-table"></table>
+			</div>
+		</div>
+	</div>
+	<th:block th:include="include :: footer" />
+	<script th:inline="javascript">
+		var editFlag = [[${@permission.hasPermi('system:general:edit')}]];
+		var removeFlag = [[${@permission.hasPermi('system:general:remove')}]];
+		var datas = [[${@dict.getType('sys_normal_disable')}]];
+		var prefix = ctx + "system/general";
+
+		$(function() {
+		    var options = {
+		        url: prefix + "/list",
+		        createUrl: prefix + "/add",
+		        updateUrl: prefix + "/edit/{id}",
+		        removeUrl: prefix + "/remove",
+		        exportUrl: prefix + "/export",
+		        modalName: "专票",
+		        columns: [{
+		            checkbox: true
+		        },
+		        {
+		            field: 'id',
+		            title: '编号'
+		        },
+		        {
+		            field: 'invoiceTypeCode',
+		            title: '发票种类代码',
+		            sortable: true
+		        },
+		        {
+		            field: 'invoiceCode',
+		            title: '发票代码',
+		            sortable: true
+		        },{
+						field: 'invoiceDate',
+						title: '开票日期',
+						sortable: true
+					},
+					{
+						field: 'notate',
+						title: '是否注明旅客身份（填写Y/N：Y-注明旅客身份、N-未注明旅客身份；23-航空电子客票行程单、24-火车票、25-其他车票船票必输）',
+						sortable: true
+					},
+					{
+						field: 'international',
+						title: '国内/国际（填写IN/OUT：IN-国内旅客运输服务、OUT-国外旅客运输服务；23-航空电子客票行程单、24-火车票、25-其他车票船票必输）',
+						sortable: true
+					},
+					{
+						field: 'subsidy',
+						title: '不含税金额（21-代扣代缴税收缴款凭证、22-其他可抵扣发票、26-试报账虚拟发票必输）',
+						sortable: true
+					},
+					{
+						field: 'taxCode',
+						title: '税码（21-代扣代缴税收缴款凭证、22-其他可抵扣发票、26-试报账虚拟发票必输；范围：0、0.015、0.03、0.05、0.06、0.09、0.1、0.11、0.13、0.16、0.17；）',
+						sortable: true
+					},
+					{
+						field: 'fares',
+						title: '票价（23-航空电子客票行程单必输）',
+						sortable: true
+					},
+					{
+						field: 'civilAviation',
+						title: '民航发展基金（23-航空电子客票行程单必输）',
+						sortable: true
+					},
+					{
+						field: 'fuelSurcharge',
+						title: '燃油附加费（23-航空电子客票行程单必输）',
+						sortable: true
+					},
+					{
+						field: 'taxFee',
+						title: '其他税费',
+						sortable: true
+					},
+					{
+						field: 'sum',
+						title: '金额（13-桥闸通行费、 14-一二级公路通行费、16-其他不可抵扣发票、 23-航空电子客票行程单、24-火车票、25-其他车票船票必输）',
+						sortable: true
+					},
+					{
+						field: 'sum1',
+						title: '可报账金额（24-火车票必输）',
+						sortable: true
+					},
+					{
+						field: 'taxNum',
+						title: '购方税号',
+						sortable: true
+					},
+					{
+						field: 'taxName',
+						title: '购买方名称',
+						sortable: true
+					},
+					{
+						field: 'saleNum',
+						title: '销售方税号',
+						sortable: true
+					},
+					{
+						field: 'saleName',
+						title: '销售方名称',
+						sortable: true
+					}]
+		    };
+		    $.table.init(options);
+		})
+	</script>
+</body>
+</html>

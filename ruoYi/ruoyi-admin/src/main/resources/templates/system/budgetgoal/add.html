@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+	<th:block th:include="include :: header('新增岗位')" />
+</head>
+<body class="white-bg">
+	<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+		<form class="form-horizontal m" id="form-budgetgoal-add">
+			<div class="form-group">
+				<label class="col-sm-3 control-label is-required">预算名称：</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" name="budgetName" id="budgetName" required>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label is-required">预算编号：</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" name="budgetNumber" id="budgetNumber" required>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label is-required">单位：</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" name="unit" id="unit" required>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label is-required">今年预算值：</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" name="budgetValue" id="budgetValue" required>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label is-required">截止当前占用值：</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" name="occupationValue" id="occupationValue" required>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label is-required">本年预算进度：</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" name="budgetProgress" id="budgetProgress" required>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">本年结余：</label>
+				<div class="col-sm-8">
+					<textarea id="surplus" name="surplus" class="form-control"></textarea>
+				</div>
+			</div>
+		</form>
+	</div>
+	<th:block th:include="include :: footer" />
+	<script type="text/javascript">
+		var prefix = ctx + "system/budgetgoal";
+		
+		function submitHandler() {
+	        if ($.validate.form()) {
+	        	$.operate.save(prefix + "/add", $('#form-budgetgoal-add').serialize());
+	        }
+	    }
+	</script>
+</body>
+</html>

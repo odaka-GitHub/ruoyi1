@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.BusinessMapper">
+
+	<resultMap type="Business" id="BusinessResult">
+		<id     property="id"        column="id"       />
+		<result property="subject"      column="subject"     />
+		<result property="unit"      column="unit"     />
+		<result property="adjustBudget"      column="adjustBudget"     />
+		<result property="adjustBudget2"        column="adjustBudget2"        />
+		<result property="balance"      column="balance"     />
+		<result property="remark"        column="remark"        />
+	</resultMap>
+	
+	<sql id="selectBusinessVo">
+        select id, subject, unit, adjustBudget, adjustBudget2, balance,remark
+		from business
+    </sql>
+	
+	<select id="selectBusinessList" parameterType="Business" resultMap="BusinessResult">
+	    <include refid="selectBusinessVo"/>
+		<where>
+			<if test="subject != null and subject != ''">
+				AND subject like concat('%', #{subject}, '%')
+			</if>
+			<if test="unit != null and unit != ''">
+				AND unit = #{unit}
+			</if>
+			<if test="remark != null and remark != ''">
+				AND remark like concat('%', #{remark}, '%')
+			</if>
+		</where>
+	</select>
+	
+	<select id="selectBusinessAll" resultMap="BusinessResult">
+		<include refid="selectBusinessVo"/>
+	</select>
+	
+	<select id="selectBusinessById" parameterType="Long" resultMap="BusinessResult">
+		<include refid="selectBusinessVo"/>
+		where id = #{id}
+	</select>
+	
+ 	<delete id="deleteBusinessByIds" parameterType="Long">
+ 		delete from business where id in
+ 		<foreach collection="array" item="id" open="(" separator="," close=")">
+ 			#{id}
+        </foreach> 
+ 	</delete>
+ 	
+ 	<update id="updateBusiness" parameterType="Business">
+ 		update business
+ 		<set>
+ 			<if test="subject != null and subject != ''">subject = #{subject},</if>
+ 			<if test="unit != null and unit != ''">unit = #{unit},</if>
+ 			<if test="adjustBudget != null and adjustBudget != ''">adjustBudget = #{adjustBudget},</if>
+ 			<if test="adjustBudget2 != null and adjustBudget2 != ''">adjustBudget2 = #{adjustBudget2},</if>
+			<if test="balance != null and balance != ''">balance = #{balance},</if>
+ 			<if test="remark != null">remark = #{remark}</if>
+ 		</set>
+ 		where id = #{id}
+	</update>
+ 	
+ 	<insert id="insertBusiness" parameterType="Business" useGeneratedKeys="true" keyProperty="id">
+ 		insert into business(
+ 			<if test="id != null and id != 0">id,</if>
+ 			<if test="subject != null and subject != ''">subject,</if>
+ 			<if test="unit != null and unit != ''">unit,</if>
+ 			<if test="adjustBudget != null and adjustBudget != ''">adjustBudget,</if>
+ 			<if test="adjustBudget2 != null and adjustBudget2 != ''">adjustBudget2,</if>
+		    <if test="balance != null and balance != ''">balance,</if>
+ 			<if test="remark != null and remark != ''">remark</if>
+ 		)values(
+ 			<if test="id != null and id != 0">#{id},</if>
+ 			<if test="subject != null and subject != ''">#{subject},</if>
+ 			<if test="unit != null and unit != ''">#{unit},</if>
+ 			<if test="adjustBudget != null and adjustBudget != ''">#{adjustBudget},</if>
+ 			<if test="adjustBudget2 != null and adjustBudget2 != ''">#{adjustBudget2},</if>
+			<if test="balance != null and balance != ''">#{balance},</if>
+ 			<if test="remark != null and remark != ''">#{remark}</if>
+ 		)
+	</insert>
+
+</mapper> 

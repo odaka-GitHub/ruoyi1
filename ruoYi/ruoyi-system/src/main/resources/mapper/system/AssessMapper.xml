@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.AssessMapper">
+
+	<resultMap type="Assess" id="AssessResult">
+		<id     property="id"        column="id"       />
+		<result property="subject"      column="subject"     />
+		<result property="unit"      column="unit"     />
+		<result property="budgetValue"      column="budgetValue"     />
+		<result property="accomplishValue"        column="accomplishValue"        />
+		<result property="accomplishValue2"      column="accomplishValue2"     />
+		<result property="adjustValue"        column="adjustValue"        />
+		<result property="adjustValue2"        column="adjustValue2"        />
+		<result property="completion"        column="completion"        />
+	</resultMap>
+	
+	<sql id="selectAssessVo">
+        select id, subject, unit, budgetValue, accomplishValue, accomplishValue2,adjustValue,adjustValue2,completion
+		from assess
+    </sql>
+	
+	<select id="selectAssessList" parameterType="Assess" resultMap="AssessResult">
+	    <include refid="selectAssessVo"/>
+		<where>
+			<if test="subject != null and subject != ''">
+				AND subject like concat('%', #{subject}, '%')
+			</if>
+			<if test="unit != null and unit != ''">
+				AND unit = #{unit}
+			</if>
+		</where>
+	</select>
+	
+	<select id="selectAssessAll" resultMap="AssessResult">
+		<include refid="selectAssessVo"/>
+	</select>
+	
+	<select id="selectAssessById" parameterType="Long" resultMap="AssessResult">
+		<include refid="selectAssessVo"/>
+		where id = #{id}
+	</select>
+	
+ 	<delete id="deleteAssessByIds" parameterType="Long">
+ 		delete from assess where id in
+ 		<foreach collection="array" item="id" open="(" separator="," close=")">
+ 			#{id}
+        </foreach> 
+ 	</delete>
+ 	
+ 	<update id="updateAssess" parameterType="Assess">
+ 		update assess
+ 		<set>
+ 			<if test="subject != null and subject != ''">subject = #{subject},</if>
+ 			<if test="unit != null and unit != ''">unit = #{unit},</if>
+ 			<if test="budgetValue != null and budgetValue != ''">budgetValue = #{budgetValue},</if>
+ 			<if test="accomplishValue != null and accomplishValue != ''">accomplishValue = #{accomplishValue},</if>
+			<if test="accomplishValue2 != null and accomplishValue2 != ''">accomplishValue2 = #{accomplishValue2},</if>
+ 			<if test="adjustValue != null">adjustValue = #{adjustValue},</if>
+			<if test="adjustValue2 != null">adjustValue2 = #{adjustValue},</if>
+			<if test="completion != null">completion = #{completion}</if>
+ 		</set>
+ 		where id = #{id}
+	</update>
+ 	
+ 	<insert id="insertAssess" parameterType="Assess" useGeneratedKeys="true" keyProperty="id">
+ 		insert into assess(
+ 			<if test="id != null and id != 0">id,</if>
+ 			<if test="subject != null and subject != ''">subject,</if>
+ 			<if test="unit != null and unit != ''">unit,</if>
+ 			<if test="budgetValue != null and budgetValue != ''">budgetValue,</if>
+ 			<if test="accomplishValue != null and accomplishValue != ''">accomplishValue,</if>
+		    <if test="accomplishValue2 != null and accomplishValue2 != ''">accomplishValue2,</if>
+ 			<if test="adjustValue != null and adjustValue != ''">adjustValue,</if>
+			<if test="adjustValue2 != null and adjustValue2 != ''">adjustValue2,</if>
+			<if test="completion != null and completion != ''">completion</if>
+ 		)values(
+ 			<if test="id != null and id != 0">#{id},</if>
+ 			<if test="subject != null and subject != ''">#{subject},</if>
+ 			<if test="unit != null and unit != ''">#{unit},</if>
+ 			<if test="budgetValue != null and budgetValue != ''">#{budgetValue},</if>
+ 			<if test="accomplishValue != null and accomplishValue != ''">#{accomplishValue},</if>
+			<if test="accomplishValue2 != null and accomplishValue2 != ''">#{accomplishValue2},</if>
+ 			<if test="adjustValue != null and adjustValue != ''">#{remark},</if>
+			<if test="adjustValue2 != null and adjustValue2 != ''">#{adjustValue2},</if>
+			<if test="completion != null and completion != ''">#{completion}</if>
+ 		)
+	</insert>
+
+</mapper> 

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.UserMapper">
+
+	<resultMap type="User" id="UserResult">
+		<id     property="id"        column="id"       />
+		<result property="userName"      column="userName"     />
+		<result property="loginName"      column="loginName"     />
+		<result property="jobNumber"      column="jobNumber"     />
+		<result property="unit"        column="unit"        />
+		<result property="post"      column="post"     />
+		<result property="revamp"        column="revamp"        />
+		<result property="valid"      column="valid"     />
+		<result property="permission"        column="permission"        />
+	</resultMap>
+	
+	<sql id="selectUserVo">
+        select id, userName, loginName, jobNumber, unit, post,revamp,valid,permission
+		from user
+    </sql>
+	<select id="login" parameterType="User" resultMap="UserResult">
+		select * from user
+		<trim prefix="where" prefixOverrides="and | or">
+			<if test="userName !=null and userName != ''">
+				and userName=#{userName}
+			</if>
+			<if test="jobNumber !=null and jobNumber != ''">
+				and jobNumber=#{jobNumber}
+			</if>
+		</trim>
+	</select>
+	<select id="selectUserList" parameterType="User" resultMap="UserResult">
+	    <include refid="selectUserVo"/>
+		<where>
+			<if test="userName != null and userName != ''">
+				AND userName like concat('%', #{userName}, '%')
+			</if>
+			<if test="jobNumber != null and jobNumber != ''">
+				AND jobNumber = #{jobNumber}
+			</if>
+			<if test="unit != null and unit != ''">
+				AND unit like concat('%', #{unit}, '%')
+			</if>
+		</where>
+	</select>
+	
+	<select id="selectUserAll" resultMap="UserResult">
+		<include refid="selectUserVo"/>
+	</select>
+	
+	<select id="selectUserById" parameterType="Long" resultMap="UserResult">
+		<include refid="selectUserVo"/>
+		where id = #{id}
+	</select>
+	
+ 	<delete id="deleteUserByIds" parameterType="Long">
+ 		delete from user where id in
+ 		<foreach collection="array" item="id" open="(" separator="," close=")">
+ 			#{id}
+        </foreach> 
+ 	</delete>
+ 	
+ 	<update id="updateUser" parameterType="User">
+ 		update user
+ 		<set>
+ 			<if test="userName != null and userName != ''">userName = #{userName},</if>
+ 			<if test="loginName != null and loginName != ''">loginName = #{loginName},</if>
+ 			<if test="jobNumber != null and jobNumber != ''">jobNumber = #{jobNumber},</if>
+ 			<if test="unit != null and unit != ''">unit = #{unit},</if>
+			<if test="post != null">post = #{post},</if>
+ 			<if test="revamp != null">revamp = #{revamp},</if>
+			<if test="valid != null and valid != ''">valid = #{valid},</if>
+			<if test="permission != null and permission != ''">permission = #{permission}</if>
+ 		</set>
+ 		where id = #{id}
+	</update>
+ 	
+ 	<insert id="insertUser" parameterType="User" useGeneratedKeys="true" keyProperty="id">
+ 		insert into user(
+ 			<if test="id != null and id != 0">id,</if>
+ 			<if test="userName != null and userName != ''">userName,</if>
+ 			<if test="loginName != null and loginName != ''">loginName,</if>
+ 			<if test="jobNumber != null and jobNumber != ''">jobNumber,</if>
+ 			<if test="unit != null and unit != ''">unit,</if>
+		    <if test="post != null">post,</if>
+ 			<if test="revamp != null and revamp != ''">revamp,</if>
+			<if test="valid != null and valid != ''">valid,</if>
+			<if test="permission != null and permission != ''">permission</if>
+ 		)values(
+ 			<if test="id != null and id != 0">#{id},</if>
+ 			<if test="userName != null and userName != ''">#{userName},</if>
+ 			<if test="loginName != null and loginName != ''">#{loginName},</if>
+ 			<if test="jobNumber != null and jobNumber != ''">#{jobNumber},</if>
+ 			<if test="unit != null and unit != ''">#{unit},</if>
+			<if test="post != null">#{post},</if>
+ 			<if test="revamp != null and revamp != ''">#{revamp},</if>
+			<if test="valid != null and valid != ''">#{valid},</if>
+			<if test="permission != null and permission != ''">#{permission}</if>
+ 		)
+	</insert>
+
+</mapper> 

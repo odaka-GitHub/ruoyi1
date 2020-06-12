@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.ReportManageMapper">
+
+	<resultMap type="ReportManage" id="ReportManageResult">
+		<id     property="id"        column="id"       />
+		<result property="associativeName"      column="associativeName"     />
+		<result property="business"      column="business"     />
+		<result property="manageContent"      column="manageContent"     />
+		<result property="reportName"        column="reportName"        />
+		<result property="reportPeriod"      column="reportPeriod"     />
+		<result property="creator"        column="creator"        />
+		<result property="creatorTime"        column="creatorTime"        />
+		<result property="status"        column="status"        />
+	</resultMap>
+	
+	<sql id="selectReportManageVo">
+        select id, associativeName, business, manageContent, reportName, reportPeriod,creator,creatorTime,status
+		from report_manage
+    </sql>
+	
+	<select id="selectReportManageList" parameterType="ReportManage" resultMap="ReportManageResult">
+	    <include refid="selectReportManageVo"/>
+		<where>
+			<if test="associativeName != null and associativeName != ''">
+				AND associativeName like concat('%', #{associativeName}, '%')
+			</if>
+			<if test="manageContent != null and manageContent != ''">
+				AND manageContent = #{manageContent}
+			</if>
+			<if test="reportName != null and reportName != ''">
+				AND reportName like concat('%', #{reportName}, '%')
+			</if>
+		</where>
+	</select>
+	
+	<select id="selectReportManageAll" resultMap="ReportManageResult">
+		<include refid="selectReportManageVo"/>
+	</select>
+	<select id="selectQx" resultMap="ReportManageResult">
+		 select status from report_manage where id =#{id}
+	</select>
+	<select id="selectReportManageById" parameterType="Long" resultMap="ReportManageResult">
+		<include refid="selectReportManageVo"/>
+		where id = #{id}
+	</select>
+	
+ 	<delete id="deleteReportManageByIds" parameterType="Long">
+ 		delete from report_manage where id in
+ 		<foreach collection="array" item="id" open="(" separator="," close=")">
+ 			#{id}
+        </foreach> 
+ 	</delete>
+ 	
+ 	<update id="updateReportManage" parameterType="ReportManage">
+ 		update report_manage
+ 		<set>
+ 			<if test="associativeName != null and associativeName != ''">associativeName = #{associativeName},</if>
+ 			<if test="business != null and business != ''">business = #{business},</if>
+ 			<if test="manageContent != null and manageContent != ''">manageContent = #{manageContent},</if>
+ 			<if test="reportName != null and reportName != ''">reportName = #{reportName},</if>
+			<if test="reportPeriod != null and reportPeriod != ''">reportPeriod = #{reportPeriod},</if>
+			<if test="creator != null and creator != ''">creator = #{creator},</if>
+			<if test="creatorTime != null and creatorTime != ''">creatorTime = #{creatorTime},</if>
+			<if test="status != null and status != ''">status = #{status}</if>
+ 		</set>
+ 		where id = #{id}
+	</update>
+ 	
+ 	<insert id="insertReportManage" parameterType="ReportManage" useGeneratedKeys="true" keyProperty="id">
+ 		insert into report_manage(
+ 			<if test="id != null and id != 0">id,</if>
+ 			<if test="associativeName != null and associativeName != ''">associativeName,</if>
+ 			<if test="business != null and business != ''">business,</if>
+ 			<if test="manageContent != null and manageContent != ''">manageContent,</if>
+ 			<if test="reportName != null and reportName != ''">reportName,</if>
+		    <if test="reportPeriod != null and reportPeriod != ''">reportPeriod,</if>
+			<if test="creator != null and creator != ''">creator,</if>
+			creatorTime,
+			<if test="status != null and status != ''">status</if>
+ 		)values(
+ 			<if test="id != null and id != 0">#{id},</if>
+ 			<if test="associativeName != null and associativeName != ''">#{associativeName},</if>
+ 			<if test="business != null and business != ''">#{business},</if>
+ 			<if test="manageContent != null and manageContent != ''">#{manageContent},</if>
+ 			<if test="reportName != null and reportName != ''">#{reportName},</if>
+			<if test="reportPeriod != null and reportPeriod != ''">#{reportPeriod},</if>
+			<if test="creator != null and creator != ''">#{creator},</if>
+			now(),
+			<if test="status != null and status != ''">#{status}</if>
+ 		)
+	</insert>
+
+</mapper> 

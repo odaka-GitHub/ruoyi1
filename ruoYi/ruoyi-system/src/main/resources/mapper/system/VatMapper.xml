@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.VatMapper">
+
+	<resultMap type="Vat" id="VatResult">
+		<id     property="id"        column="id"       />
+		<result property="invoiceTypeCode"      column="invoiceTypeCode"     />
+		<result property="invoiceCode"      column="invoiceCode"     />
+		<result property="invoiceNum"      column="invoiceNum"     />
+		<result property="invoicePagination"        column="invoicePagination"        />
+		<result property="invoiceDate"      column="invoiceDate"     />
+		<result property="checkCode"        column="checkCode"        />
+		<result property="taxNum"      column="taxNum"     />
+		<result property="redMessage"        column="redMessage"        />
+	</resultMap>
+	
+	<sql id="selectVatVo">
+        select id, invoiceTypeCode, invoiceCode, invoiceNum, invoicePagination, invoiceDate,checkCode,taxNum,redMessage
+		from vat
+    </sql>
+	
+	<select id="selectVatList" parameterType="Vat" resultMap="VatResult">
+	    <include refid="selectVatVo"/>
+		<where>
+			<if test="invoiceTypeCode != null and invoiceTypeCode != ''">
+				AND invoiceTypeCode like concat('%', #{invoiceTypeCode}, '%')
+			</if>
+			<if test="invoiceCode != null and invoiceCode != ''">
+				AND invoiceCode = #{invoiceCode}
+			</if>
+			<if test="taxNum != null and taxNum != ''">
+				AND taxNum like concat('%', #{taxNum}, '%')
+			</if>
+		</where>
+	</select>
+	
+	<select id="selectVatAll" resultMap="VatResult">
+		<include refid="selectVatVo"/>
+	</select>
+	
+	<select id="selectVatById" parameterType="Long" resultMap="VatResult">
+		<include refid="selectVatVo"/>
+		where id = #{id}
+	</select>
+	
+ 	<delete id="deleteVatByIds" parameterType="Long">
+ 		delete from vat where id in
+ 		<foreach collection="array" item="id" open="(" separator="," close=")">
+ 			#{id}
+        </foreach> 
+ 	</delete>
+ 	
+ 	<update id="updateVat" parameterType="Vat">
+ 		update vat
+ 		<set>
+ 			<if test="invoiceTypeCode != null and invoiceTypeCode != ''">invoiceTypeCode = #{invoiceTypeCode},</if>
+ 			<if test="invoiceCode != null and invoiceCode != ''">invoiceCode = #{invoiceCode},</if>
+ 			<if test="invoiceNum != null and invoiceNum != ''">invoiceNum = #{invoiceNum},</if>
+ 			<if test="invoicePagination != null and invoicePagination != ''">invoicePagination = #{invoicePagination},</if>
+			<if test="invoiceDate != null">invoiceDate = #{invoiceDate},</if>
+ 			<if test="checkCode != null">checkCode = #{checkCode},</if>
+			<if test="taxNum != null and taxNum != ''">taxNum = #{taxNum},</if>
+			<if test="redMessage != null and redMessage != ''">redMessage = #{redMessage}</if>
+ 		</set>
+ 		where id = #{id}
+	</update>
+ 	
+ 	<insert id="insertVat" parameterType="Vat" useGeneratedKeys="true" keyProperty="id">
+ 		insert into vat(
+ 			<if test="id != null and id != 0">id,</if>
+ 			<if test="invoiceTypeCode != null and invoiceTypeCode != ''">invoiceTypeCode,</if>
+ 			<if test="invoiceCode != null and invoiceCode != ''">invoiceCode,</if>
+ 			<if test="invoiceNum != null and invoiceNum != ''">invoiceNum,</if>
+ 			<if test="invoicePagination != null and invoicePagination != ''">invoicePagination,</if>
+		    <if test="invoiceDate != null">invoiceDate,</if>
+ 			<if test="checkCode != null and checkCode != ''">checkCode,</if>
+			<if test="taxNum != null and taxNum != ''">taxNum,</if>
+			<if test="redMessage != null and redMessage != ''">redMessage</if>
+ 		)values(
+ 			<if test="id != null and id != 0">#{id},</if>
+ 			<if test="invoiceTypeCode != null and invoiceTypeCode != ''">#{invoiceTypeCode},</if>
+ 			<if test="invoiceCode != null and invoiceCode != ''">#{invoiceCode},</if>
+ 			<if test="invoiceNum != null and invoiceNum != ''">#{invoiceNum},</if>
+ 			<if test="invoicePagination != null and invoicePagination != ''">#{invoicePagination},</if>
+			<if test="invoiceDate != null">#{invoiceDate},</if>
+ 			<if test="checkCode != null and checkCode != ''">#{checkCode},</if>
+			<if test="taxNum != null and taxNum != ''">#{taxNum},</if>
+			<if test="redMessage != null and redMessage != ''">#{redMessage}</if>
+ 		)
+	</insert>
+
+</mapper> 

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+	<th:block th:include="include :: header('酬金计提明细列表')" />
+</head>
+<body class="gray-bg">
+	<div class="container-div">
+		<div class="row">
+			<div class="col-sm-12 search-collapse">
+				<form id="post-form">
+					<div class="select-list">
+						<ul>
+							<li>
+								酬金编号：<input type="text" name="id"/>
+							</li>
+							<li>
+								渠道类型：<input type="text" name="channelType"/>
+							</li>
+							<li>
+								代销商编号：<input type="text" name="merchantId"/>
+							</li>
+							<li>
+								<a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+							    <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+							</li>
+						</ul>
+					</div>
+				</form>
+			</div>
+			
+			<div class="btn-group-sm" id="toolbar" role="group">
+				<a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:reward:add">
+	                <i class="fa fa-plus"></i> 新增
+	            </a>
+				<a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="system:reward:edit">
+		            <i class="fa fa-edit"></i> 修改
+		        </a>
+				<a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:reward:remove">
+		            <i class="fa fa-remove"></i> 删除
+		        </a>
+				<a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:reward:export">
+		            <i class="fa fa-download"></i> 导出
+		        </a>
+	        </div>
+	        
+	        <div class="col-sm-12 select-table table-striped">
+			    <table id="bootstrap-table"></table>
+			</div>
+		</div>
+	</div>
+	<th:block th:include="include :: footer" />
+	<script th:inline="javascript">
+		var editFlag = [[${@permission.hasPermi('system:reward:edit')}]];
+		var removeFlag = [[${@permission.hasPermi('system:reward:remove')}]];
+		var datas = [[${@dict.getType('sys_normal_disable')}]];
+		var prefix = ctx + "system/reward";
+
+		$(function() {
+		    var options = {
+		        url: prefix + "/list",
+		        createUrl: prefix + "/add",
+		        updateUrl: prefix + "/edit/{id}",
+		        removeUrl: prefix + "/remove",
+		        exportUrl: prefix + "/export",
+		        modalName: "岗位",
+		        columns: [{
+		            checkbox: true
+		        },
+		        {
+		            field: 'id',
+		            title: '编号'
+		        },
+		        {
+		            field: 'area',
+		            title: '地区',
+		            sortable: true
+		        },
+		        {
+		            field: 'counties',
+		            title: '县市',
+		            sortable: true
+		        },
+		        {
+		            field: 'regional',
+		            title: '区域营销',
+		            sortable: true
+		        },
+					{
+						field: 'channelType',
+						title: '渠道类型',
+						sortable: true
+					},
+		        {
+		            field: 'channelType1',
+		            title: '渠道子类型',
+		            sortable: true
+		        },
+					{
+						field: 'merchantId',
+						title: '代销商编号',
+						sortable: true
+					},
+					{
+						field: 'merchant',
+						title: '代销商',
+						sortable: true
+					},
+					{
+						field: 'subjectType',
+						title: '科目类型',
+						sortable: true
+					},
+					{
+						field: 'businessType',
+						title: '业务类型',
+						sortable: true
+					},
+					{
+						field: 'brand',
+						title: '品牌',
+						sortable: true
+					},
+					{
+						field: 'averagePrice',
+						title: '平均单价',
+						sortable: true
+					},
+					{
+						field: 'count',
+						title: '计算数量',
+						sortable: true
+					},
+					{
+						field: 'rewardSum',
+						title: '酬金金额（含税）',
+						sortable: true
+					},
+					{
+						field: 'paidSum',
+						title: '实付金额',
+						sortable: true
+					},
+					{
+						field: 'calculation',
+						title: '计算依据',
+						sortable: true
+					},
+					{
+						field: 'rewardSum1',
+						title: '酬金金额（不含税）',
+						sortable: true
+					}]
+		    };
+		    $.table.init(options);
+		});
+	</script>
+</body>
+</html>

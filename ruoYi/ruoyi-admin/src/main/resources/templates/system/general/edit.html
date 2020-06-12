@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+	<th:block th:include="include :: header('修改岗位')" />
+</head>
+<body class="white-bg">
+	<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+		<form class="form-horizontal m" id="form-general-edit" th:object="${general}">
+			<input id="id" name="id" type="hidden" th:field="*{id}"/>
+			<div class="form-group">
+				<label class="col-sm-3 control-label is-required">发票种类代码：</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" name="invoiceTypeCode" id="invoiceTypeCode" th:field="*{invoiceTypeCode}" required>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label is-required">发票代码：</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" name="invoiceCode" id="invoiceCode" th:field="*{invoiceCode}" required>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label is-required">开票日期：</label>
+				<div class="col-sm-8">
+					<input type="date"  placeholder="开票日期" class="layui-input form-control" id="invoiceDate" name="invoiceDate" th:field="*{invoiceDate}" required>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">是否注明旅客身份：</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" name="notate" id="notate" th:field="*{notate}" required>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">国内/国际：</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" name="international" id="international" th:field="*{international}" required>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">不含税金额：</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" name="subsidy" id="subsidy" th:field="*{subsidy}" required>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">税码：</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" name="taxCode" id="taxCode" th:field="*{taxCode}" required>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">票价：</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" name="fares" id="fares" th:field="*{fares}" required>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">民航发展基金：</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" name="civilAviation" id="civilAviation" th:field="*{civilAviation}" required>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">燃油附加费：</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" name="fuelSurcharge" id="fuelSurcharge" th:field="*{fuelSurcharge}" required>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">其他税费：</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" name="taxFee" id="taxFee" th:field="*{taxFee}" required>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">金额：</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" name="sum" id="sum" th:field="*{sum}" required>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">可报账金额：</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" name="sum1" id="sum1" th:field="*{sum1}" required>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">购方税号：</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" name="taxNum" id="taxNum" th:field="*{taxNum}" required>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">购买方名称：</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" name="taxName" id="taxName" th:field="*{taxName}" required>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">销售方税号：</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" name="saleNum" id="saleNum" th:field="*{saleNum}" required>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">销售方名称：</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" name="saleName" id="saleName" th:field="*{saleName}" required>
+				</div>
+			</div>
+		</form>
+	</div>
+	<th:block th:include="include :: footer" />
+	<script type="text/javascript">
+		var prefix = ctx + "system/general";
+		
+		function submitHandler() {
+				if ($.validate.form()) {
+	        	$.operate.save(prefix + "/edit", $('#form-general-edit').serialize());
+	        }
+	    };
+		layui.use(['laydate'], function(){
+			var laydate = layui.laydate;
+			//执行一个laydate实例
+			laydate.render({
+				elem: '#invoiceDate',
+				zIndex:99999,
+				trigger: 'click'
+			});
+		})
+	</script>
+</body>
+</html>

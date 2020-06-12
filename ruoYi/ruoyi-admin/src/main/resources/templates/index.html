@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+    <title>移动系统首页</title>
+    <!-- 避免IE使用兼容模式 -->
+ 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link th:href="@{yidong.ico}" rel="stylesheet"/>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{/css/jquery.contextMenu.min.css}" rel="stylesheet"/>
+    <link th:href="@{/css/font-awesome.min.css}" rel="stylesheet"/>
+    <link th:href="@{/css/animate.css}" rel="stylesheet"/>
+    <link th:href="@{/css/style.css}" rel="stylesheet"/>
+    <link th:href="@{/css/skins.css}" rel="stylesheet"/>
+    <link th:href="@{/ruoyi/css/ry-ui.css?v=4.2.0}" rel="stylesheet"/>
+	<style>
+		/*#menu-box{*/
+		/*	width: 100%;*/
+		/*	height:50px;*/
+		/*	line-height:50px;*/
+		/*	background:rgb(1,163,248);*/
+		/*}*/
+		/*.nav-menus-a{*/
+		/*	display: inline-block;*/
+		/*	width:7%;*/
+		/*	color:#fff;*/
+		/*	border:none;*/
+		/*	text-align:center;*/
+		/*	line-height:50px;*/
+		/*}*/
+		.a-box{
+			position: absolute;
+			width:80%;
+			height:100px;
+			left:10%;
+		}
+		/*.box1,.box2{*/
+		/*	width: 80%;*/
+		/*	height: 50px;*/
+		/*	margin: 0 auto;*/
+		/*}*/
+		.nav-menus-a{
+			display: inline-block;
+			width: 16%;
+			height: 49px;
+			line-height: 50px;
+			text-align: center;
+			color:#fff;
+			border-bottom:1px solid #3c8dbc;
+		}
+		.navbar{
+			height:100px;
+		}
+		.nav-menus-a:hover{
+			border-bottom:1px solid #fff;
+		}
+		.borders{
+			border-bottom:1px solid red;
+			color:red;
+		}
+		/*
+
+		.nav-second-level>li:hover,.nav-second-level>li:active{
+			background:blue;!important;
+			color:#fff;
+		}*/
+		.nav-list{
+			display: none;
+			color:black;
+		}
+		.menuSub{
+			color: #000;
+		}
+	</style>
+</head>
+<body class="fixed-sidebar full-height-layout gray-bg" style="overflow: hidden">
+<div id="wrapper">
+
+
+    <!--左侧导航开始-->
+    <nav style="background:#fff;color:blue;" class="navbar-default navbar-static-side" role="navigation">
+        <div class="nav-close">
+            <i class="fa fa-times-circle"></i>
+        </div>
+        <a th:href="@{/index}">
+            <li class="logo hidden-xs">
+                <span class="logo-lg">杭州移动财务管理系统</span>
+            </li>
+         </a>
+        <div class="sidebar-collapse"  style="background:#fff;color:rgb(1,163,248);">
+            <ul class="nav" id="side-menu">
+            	<li  style="background:#fff;color:rgb(1,163,248);">
+            		<!--<div class="user-panel">
+            			<a class="menuItem" title="个人中心" th:href="@{/system/user/profile}">
+            				<div class="hide" th:text="个人中心"></div>
+					        <div class="pull-left image">
+		                    	<img th:src="(${user.avatar} == '') ? @{/img/profile.jpg} : @{${user.avatar}}" class="img-circle" alt="User Image">
+					        </div>
+				        </a>
+				        <div class="pull-left info">
+				          <p>[[${user.loginName}]]</p>
+				          <a href="#"><i class="fa fa-circle text-success"></i> 在线</a>
+				          <a th:href="@{logout}" style="padding-left:5px;"><i class="fa fa-sign-out text-danger"></i> 注销</a>
+				        </div>
+				    </div>-->
+            	</li>
+                <li class="menus">
+                    <a href="#"><i class="fa fa-home"></i> <span class="nav-label">我的工作台</span> <span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level" style="background:#fff;color:rgb(1,163,248);">
+						<li style="background:#fff;color:rgb(1,163,248);"><a class="menuItem" th:href="@{/system/budget}">签报待办事项</a></li>
+						<li style="background:#fff;color:rgb(1,163,248);"><a class="menuItem" th:href="@{/system/budget}">通知提醒</a></li>
+						<li style="background:#fff;color:rgb(1,163,248);"> <a class="menuItem" th:href="@{/system/report}">宣传用品待办事宜</a></li>
+						<li style="background:#fff;color:rgb(1,163,248);"><a class="menuItem" th:href="@{/system/budgetgoal}">重点看点待办事宜</a></li>
+						<li style="background:#fff;color:rgb(1,163,248);"> <a class="menuItem" th:href="@{/system/budget}">公告模板</a></li>
+                    </ul>
+                </li>
+				<li class="menus">
+					<a href="#"><i class="fa fa-home"></i> <span class="nav-label">预算执行</span> <span class="fa arrow"></span></a>
+					<ul class="nav nav-second-level" style="background:#fff;color:rgb(1,163,248);">
+						<li style="background:#fff;color:rgb(1,163,248);"><a class="menuItem" th:href="@{/system/budget}">预算分解</a></li>
+						<li style="background:#fff;color:rgb(1,163,248);"> <a class="menuItem" th:href="@{/system/report}">项目签报</a></li>
+						<li style="background:#fff;color:rgb(1,163,248);"><a class="menuItem" th:href="@{/system/budgetgoal}">预算目标与进度</a></li>
+						<li style="background:#fff;color:rgb(1,163,248);"> <a class="menuItem" th:href="@{/system/budget}">中期预算调整</a></li>
+						<li style="background:#fff;color:rgb(1,163,248);"> <a class="menuItem" th:href="@{/system/assess}">月度考核情况</a></li>
+						<li style="background:#fff;color:rgb(1,163,248);"><a class="menuItem" th:href="@{/system/business}">预算业务活动映射</a></li>
+					</ul>
+				</li>
+				<!--<li class="menus" style="background:#fff;color:rgb(1,163,248);">
+					<a class="menuItem" th:href="@{/system/budget}"><i class="fa fa-home"></i> <span class="nav-label">采购管理</span> <span class="fa arrow"></span></a>
+					<ul class="nav nav-second-level">
+						<li><a class="menuItem" th:href="@{/system/budget}">申请物料</a></li>
+						<li><a class="menuItem" th:href="@{/system/budget}">物料库管理</a></li>
+						<li><a class="menuItem" th:href="@{/system/report}">供应商管理</a></li>
+						<li><a class="menuItem" th:href="@{/system/budgetgoal}">物料模板管理</a></li>
+					</ul>
+				</li >-->
+				<li class="menus" style="background:#fff;color:rgb(1,163,248);">
+					<a class="menuItem" th:href="@{/system/budget}"><i class="fa fa-home"></i> <span class="nav-label">酬金管理</span> <span class="fa arrow"></span></a>
+					<ul class="nav nav-second-level">
+						<li><a class="menuItem" th:href="@{/system/reward}">酬金计提明细</a></li>
+						<li><a class="menuItem" th:href="@{/system/account}">往来账数据</a></li>
+						<li><a class="menuItem" th:href="@{/system/pay}">支付表</a></li>
+						<li><a class="menuItem" th:href="@{/system/centralization}">集中化导入</a></li>
+                        <li>
+                            <a class="menuItem" th:href="@{/system/centralization}">发票导入格式</a>
+                            <ul class="nav nav-second-level">
+                                <li><a class="menuItem" th:href="@{/system/vat}">增值税普票</a></li>
+                                <li><a class="menuItem" th:href="@{/system/specialInvoice}">增值税专票</a></li>
+                                <li><a class="menuItem" th:href="@{/system/general}">通用机打发票</a></li>
+                            </ul>
+                        </li>
+					</ul>
+				</li >
+				<li class="menus" style="background:#fff;color:rgb(1,163,248);">
+					<a class="menuItem"><i class="fa fa-home"></i> <span class="nav-label">宣传品管理</span> <span class="fa arrow"></span></a>
+					<ul class="nav nav-second-level">
+						<li><a class="menuItem" th:href="@{/system/budget}">宣传单页申领</a></li>
+						<li><a class="menuItem" th:href="@{/system/budget}">分公司汇总</a></li>
+						<li><a class="menuItem" th:href="@{/system/report}">市场部签报</a></li>
+						<li><a class="menuItem" th:href="@{/system/budgetgoal}">采购订单</a></li>
+						<li><a class="menuItem" th:href="@{/system/budget}">宣传物料库</a></li>
+						<li><a class="menuItem" th:href="@{/system/assess}">印刷品临时申请</a></li>
+						<li><a class="menuItem" th:href="@{/system/business}">对外宣传品统计表</a></li>
+						<li><a class="menuItem" th:href="@{/system/business}">物料设计制作申请</a></li>
+					</ul>
+				</li>
+				<li class="menus" style="background:#fff;color:rgb(1,163,248);">
+					<a class="menuItem"><i class="fa fa-home"></i> <span class="nav-label">报表系统</span> <span class="fa arrow"></span></a>
+					<ul class="nav nav-second-level">
+						<li><a class="menuItem" th:href="@{/system/reportManage}">分公司报表</a></li>
+						<li><a class="menuItem" th:href="@{/system/reportManage}">营业厅报表</a></li>
+						<!--<li><a class="menuItem" th:href="@{/system/reportManage}">分公司报表删除</a></li>
+                        <li><a class="menuItem" th:href="@{/system/reportManage}">营业厅报表删除</a></li>-->
+                        <li><a class="menuItem" th:href="@{/system/statistics}">分公司报表上传情况统计</a></li>
+                        <li><a class="menuItem" th:href="@{/system/statistics}">营业厅报表上传情况统计</a></li>
+						<li><a class="menuItem" th:href="@{/system/reportManage}">历史营业厅报表查询</a></li>
+						<li><a class="menuItem" th:href="@{/system/contentMaintain}">管理内容维护</a></li>
+						<li><a class="menuItem" th:href="@{/system/reportManage}">报表名称维护</a></li>
+					</ul>
+				</li>
+				<li class="menus" style="background:#fff;color:rgb(1,163,248);">
+					<a class="menuItem"><i class="fa fa-home"></i> <span class="nav-label">托收管理</span> <span class="fa arrow"></span></a>
+					<ul class="nav nav-second-level">
+						<li><a class="menuItem" th:href="@{/system/contentMaintain}">新增托收</a></li>
+						<li><a class="menuItem" th:href="@{/system/reportManage}">解除托收</a></li>
+						<li><a class="menuItem" th:href="@{/system/reportManage}">托收核销</a></li>
+					</ul>
+				</li>
+				<li class="menus" style="background:#fff;color:rgb(1,163,248);">
+					<a class="menuItem"><i class="fa fa-home"></i> <span class="nav-label">系统维护</span> <span class="fa arrow"></span></a>
+					<ul class="nav nav-second-level">
+						<li><a class="menuItem" th:href="@{/system/users}">用户管理</a></li>
+						<li><a class="menuItem" th:href="@{/system/reportManage}">功能权限管理</a></li>
+						<li><a class="menuItem" th:href="@{/system/reportManage}">部门权限管理</a></li>
+						<li><a class="menuItem" th:href="@{/system/reportManage}">内部单位管理</a></li>
+						<li><a class="menuItem" th:href="@{/system/reportManage}">功能权限管理</a></li>
+						<li><a class="menuItem" th:href="@{/system/reportManage}">营业厅管理</a></li>
+						<li><a class="menuItem" th:href="@{/system/reportManage}">通知管理</a></li>
+						<li><a class="menuItem" th:href="@{/system/reportManage}">日志管理</a></li>
+					</ul>
+				</li>
+                <li th:each="menu : ${menus}" style="background:#fff;color:rgb(1,163,248);">
+                	<a th:class="@{${menu.url != '' && menu.url != '#'} ? ${menu.target}}" th:href="@{${menu.url == ''} ? |#| : ${menu.url}}">
+                		<i class="fa fa-bar-chart-o" th:class="${menu.icon}"></i>
+                    	<span class="nav-label" th:text="${menu.menuName}">一级菜单</span>
+                    	<span th:class="${menu.url == '' || menu.url == '#'} ? |fa arrow|"></span>
+                	</a>
+                    <ul class="nav nav-second-level collapse" style="background:#fff;color:rgb(1,163,248);">
+						<li th:each="cmenu : ${menu.children}">
+							<a th:if="${#lists.isEmpty(cmenu.children)}" th:class="${cmenu.target == ''} ? |menuItem| : ${cmenu.target}" th:utext="${cmenu.menuName}" th:href="@{${cmenu.url}}">二级菜单</a>
+							<a th:if="${not #lists.isEmpty(cmenu.children)}" href="#">[[${cmenu.menuName}]]<span class="fa arrow"></span></a>
+							<ul style="background:#fff;color:rgb(1,163,248);" th:if="${not #lists.isEmpty(cmenu.children)}" class="nav nav-third-level">
+								<li th:each="emenu : ${cmenu.children}">
+								    <a th:if="${#lists.isEmpty(emenu.children)}" th:class="${emenu.target == ''} ? |menuItem| : ${emenu.target}" th:text="${emenu.menuName}" th:href="@{${emenu.url}}">三级菜单</a>
+								    <a th:if="${not #lists.isEmpty(emenu.children)}" href="#">[[${emenu.menuName}]]<span class="fa arrow"></span></a>
+								    <ul th:if="${not #lists.isEmpty(emenu.children)}" class="nav nav-four-level">
+								      	<li th:each="fmenu : ${emenu.children}"><a th:if="${#lists.isEmpty(fmenu.children)}" th:class="${fmenu.target == ''} ? |menuItem| : ${fmenu.target}" th:text="${fmenu.menuName}" th:href="@{${fmenu.url}}">四级菜单</a></li>
+								    </ul>
+								</li>
+							</ul>
+						</li>
+					</ul>
+                </li>
+                <li th:if="${demoEnabled}" style="background:#fff;color:rgb(1,163,248);">
+                   <!-- <a href="#"><i class="fa fa-desktop"></i><span class="nav-label">实例演示</span><span class="fa arrow"></span></a>-->
+                    <ul class="nav nav-second-level collapse">
+                        <li> <a>表单<span class="fa arrow"></span></a>
+                            <ul class="nav nav-third-level" style="background:#fff;color:rgb(1,163,248);">
+								<li><a class="menuItem" th:href="@{/demo/form/button}">按钮</a></li>
+								<li><a class="menuItem" th:href="@{/demo/form/grid}">栅格</a></li>
+								<li><a class="menuItem" th:href="@{/demo/form/select}">下拉框</a></li>
+								<li><a class="menuItem" th:href="@{/demo/form/timeline}">时间轴</a></li>
+								<li><a class="menuItem" th:href="@{/demo/form/basic}">基本表单</a></li>
+								<li><a class="menuItem" th:href="@{/demo/form/cards}">卡片列表</a></li>
+								<li><a class="menuItem" th:href="@{/demo/form/jasny}">功能扩展</a></li>
+								<li><a class="menuItem" th:href="@{/demo/form/sortable}">拖动排序</a></li>
+								<li><a class="menuItem" th:href="@{/demo/form/tabs_panels}">选项卡 & 面板</a></li>
+								<li><a class="menuItem" th:href="@{/demo/form/validate}">表单校验</a></li>
+								<li><a class="menuItem" th:href="@{/demo/form/wizard}">表单向导</a></li>
+								<li><a class="menuItem" th:href="@{/demo/form/upload}">文件上传</a></li>
+								<li><a class="menuItem" th:href="@{/demo/form/datetime}">日期和时间</a></li>
+								<li><a class="menuItem" th:href="@{/demo/form/summernote}">富文本编辑器</a></li>
+								<li><a class="menuItem" th:href="@{/demo/form/duallistbox}">左右互选组件</a></li>
+								<li><a class="menuItem" th:href="@{/demo/form/autocomplete}">搜索自动补全</a></li>
+							</ul>
+                        </li>
+                        <li style="background:#fff;color:rgb(1,163,248);"> <a>表格<span class="fa arrow"></span></a>
+                            <ul class="nav nav-third-level" style="background:#fff;color:rgb(1,163,248);">
+								<li><a class="menuItem" th:href="@{/demo/table/search}">查询条件</a></li>
+								<li><a class="menuItem" th:href="@{/demo/table/footer}">数据汇总</a></li>
+								<li><a class="menuItem" th:href="@{/demo/table/groupHeader}">组合表头</a></li>
+								<li><a class="menuItem" th:href="@{/demo/table/export}">表格导出</a></li>
+								<li><a class="menuItem" th:href="@{/demo/table/remember}">翻页记住选择</a></li>
+								<li><a class="menuItem" th:href="@{/demo/table/pageGo}">跳转至指定页</a></li>
+								<li><a class="menuItem" th:href="@{/demo/table/params}">自定义查询参数</a></li>
+								<li><a class="menuItem" th:href="@{/demo/table/multi}">初始多表格</a></li>
+								<li><a class="menuItem" th:href="@{/demo/table/button}">点击按钮加载表格</a></li>
+								<li><a class="menuItem" th:href="@{/demo/table/data}">直接加载表格数据</a></li>
+								<li><a class="menuItem" th:href="@{/demo/table/fixedColumns}">表格冻结列</a></li>
+								<li><a class="menuItem" th:href="@{/demo/table/event}">自定义触发事件</a></li>
+								<li><a class="menuItem" th:href="@{/demo/table/detail}">表格细节视图</a></li>
+								<li><a class="menuItem" th:href="@{/demo/table/child}">表格父子视图</a></li>
+								<li><a class="menuItem" th:href="@{/demo/table/image}">表格图片预览</a></li>
+								<li><a class="menuItem" th:href="@{/demo/table/curd}">动态增删改查</a></li>
+								<li><a class="menuItem" th:href="@{/demo/table/reorder}">表格拖拽操作</a></li>
+								<li><a class="menuItem" th:href="@{/demo/table/editable}">表格行内编辑</a></li>
+								<li><a class="menuItem" th:href="@{/demo/table/other}">表格其他操作</a></li>
+							</ul>
+                        </li>
+                        <li style="background:#fff;color:rgb(1,163,248);"> <a>弹框<span class="fa arrow"></span></a>
+                            <ul class="nav nav-third-level" style="background:#fff;color:rgb(1,163,248);">
+								<li><a class="menuItem" th:href="@{/demo/modal/dialog}">模态窗口</a></li>
+								<li><a class="menuItem" th:href="@{/demo/modal/layer}">弹层组件</a></li>
+								<li><a class="menuItem" th:href="@{/demo/modal/table}">弹层表格</a></li>
+							</ul>
+                        </li>
+                        <li style="background:#fff;color:rgb(1,163,248);"> <a>操作<span class="fa arrow"></span></a>
+                            <ul class="nav nav-third-level" style="background:#fff;color:rgb(1,163,248);">
+								<li><a class="menuItem" th:href="@{/demo/operate/table}">表格</a></li>
+								<li><a class="menuItem" th:href="@{/demo/operate/other}">其他</a></li>
+							</ul>
+                        </li>
+                        <li style="background:#fff;color:rgb(1,163,248);"> <a>报表<span class="fa arrow"></span></a>
+                            <ul class="nav nav-third-level" style="background:#fff;color:rgb(1,163,248);">
+								<li><a class="menuItem" th:href="@{/demo/report/echarts}">百度ECharts</a></li>
+								<li><a class="menuItem" th:href="@{/demo/report/peity}">peity</a></li>
+								<li><a class="menuItem" th:href="@{/demo/report/sparkline}">sparkline</a></li>
+								<li><a class="menuItem" th:href="@{/demo/report/metrics}">图表组合</a></li>
+							</ul>
+                        </li>
+                        <li style="background:#fff;color:rgb(1,163,248);"> <a>图标<span class="fa arrow"></span></a>
+                            <ul class="nav nav-third-level" style="background:#fff;color:rgb(1,163,248);">
+								<li><a class="menuItem" th:href="@{/demo/icon/fontawesome}">Font Awesome</a></li>
+								<li><a class="menuItem" th:href="@{/demo/icon/glyphicons}">Glyphicons</a></li>
+							</ul>
+                        </li>
+                        <li style="background:#fff;color:rgb(1,163,248);">
+	                        <a href="#"><i class="fa fa-sitemap"></i>四层菜单<span class="fa arrow"></span></a>
+	                        <ul class="nav nav-third-level collapse" style="background:#fff;color:rgb(1,163,248);">
+	                            <li>
+	                                <a href="#" id="damian">三级菜单1<span class="fa arrow"></span></a>
+	                                <ul class="nav nav-third-level">
+	                                    <li>
+	                                        <a href="#">四级菜单1</a>
+	                                    </li>
+	                                    <li>
+	                                        <a href="#">四级菜单2</a>
+	                                    </li>
+	                                </ul>
+	                            </li>
+	                            <li><a href="#">三级菜单2</a></li>
+	                        </ul>
+	                    </li>
+                    </ul>
+                </li>
+            </ul>
+			<!--<ul class="nav nav-second-level nav-list" style="background:#fff;color:#000;">
+				<li style="background:#fff;color:#000;"><a class="menuItem menuSub" th:href="@{/system/budget}">预算执行</a></li>
+				<li style="background:#fff;color:#000;;"><a class="menuItem menuSub" th:href="@{/system/budget}">预算分解</a></li>
+				<li style="background:#fff;color:#000;"> <a class="menuItem menuSub" th:href="@{/system/report}">项目签报</a></li>
+				<li style="background:#fff;color:#000;"><a class="menuItem menuSub" th:href="@{/system/budgetgoal}">预算目标与进度</a></li>
+				<li style="background:#fff;color:#000;"> <a class="menuItem menuSub" th:href="@{/system/budget}">中期预算调整</a></li>
+				<li style="background:#fff;color:#000;"> <a class="menuItem menuSub" th:href="@{/system/assess}">月度考核情况</a></li>
+				<li style="background:#fff;color:#000;"><a class="menuItem menuSub" th:href="@{/system/business}">预算业务活动映射</a></li>
+			</ul>-->
+
+			<!--<ul class="nav nav-second-level nav-list" style="color:#000;">
+				<li><a class="menuItem menuSub" th:href="@{/system/budget}">申请物料</a></li>
+				<li><a class="menuItem menuSub" th:href="@{/system/budget}">物料库管理</a></li>
+				<li><a class="menuItem menuSub" th:href="@{/system/report}">供应商管理</a></li>
+				<li><a class="menuItem menuSub" th:href="@{/system/budgetgoal}">物料模板管理</a></li>
+			</ul>-->
+
+			<!--<ul class="nav nav-second-level nav-list" style="color:#000;">
+				<li><a class="menuItem menuSub" th:href="@{/system/budget}">宣传单页申领</a></li>
+				<li><a class="menuItem menuSub" th:href="@{/system/budget}">分公司汇总</a></li>
+				<li><a class="menuItem menuSub" th:href="@{/system/report}">市场部签报</a></li>
+				<li><a class="menuItem menuSub" th:href="@{/system/budgetgoal}">采购订单</a></li>
+				<li><a class="menuItem menuSub" th:href="@{/system/budget}">宣传物料库</a></li>
+				<li><a class="menuItem menuSub" th:href="@{/system/assess}">印刷品临时申请</a></li>
+				<li><a class="menuItem menuSub" th:href="@{/system/business}">对外宣传品统计表</a></li>
+				<li><a class="menuItem menuSub" th:href="@{/system/business}">物料设计制作申请</a></li>
+			</ul>-->
+
+			<!--<ul class="nav nav-second-level nav-list" style="color:#000;">
+				<li><a class="menuItem menuSub" th:href="@{/system/budget}">分公司报表</a></li>
+				<li><a class="menuItem menuSub" th:href="@{/system/budget}">营业厅报表</a></li>
+				<li><a class="menuItem menuSub" th:href="@{/system/report}">分公司报表删除</a></li>
+				<li><a class="menuItem menuSub" th:href="@{/system/assess}">历史营业厅报表</a></li>
+				<li><a class="menuItem menuSub" th:href="@{/system/business}">历史营业厅报表删除</a></li>
+			</ul>-->
+        </div>
+    </nav>
+    <!--左侧导航结束-->
+
+
+    <!--右侧部分开始-->
+    <div id="page-wrapper" class="gray-bg dashbard-1">
+        <div class="row border-bottom">
+            <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+                <div class="navbar-header">
+                    <a class="navbar-minimalize minimalize-styl-2" style="color:#FFF;" href="#" title="收起菜单">
+                    	<i class="fa fa-bars"></i>
+                    </a>
+
+                </div>
+				<div class="a-box">
+<!--					<div class="box1">-->
+						<a class="nav-menus-a menuItem">我的工作台</a>
+						<a class="nav-menus-a menuItem">预算执行</a>
+						<a class="nav-menus-a menuItem">酬金管理</a>
+						<a class="nav-menus-a menuItem">物流管理</a>
+						<a class="nav-menus-a menuItem">报表系统</a>
+<!--					</div>-->
+					<!--<a class="nav-menus-a menuItem" th:href="@{/system/budget}">系统管理</a>
+                    <a class="nav-menus-a menuItem" th:href="@{/system/budget}">系统监控</a>
+                    <a class="nav-menus-a menuItem" th:href="@{/system/budget}">系统工具</a>-->
+<!--					<div class="box2">-->
+                        <a class="nav-menus-a menuItem">客户资金</a>
+                        <a class="nav-menus-a menuItem">托收管理</a>
+						<a class="nav-menus-a menuItem">工程监控</a>
+						<a class="nav-menus-a menuItem">迁改收款管理</a>
+						<a class="nav-menus-a menuItem">营业成本管理</a>
+						<a class="nav-menus-a menuItem">资产管理</a>
+<!--					</div>-->
+				</div>
+
+                <ul class="nav navbar-top-links navbar-right welcome-message">
+                    <!--<li><a title="视频教程" href="http://doc.ruoyi.vip/ruoyi/document/spjc.html" target="_blank"><i class="fa fa-video-camera"></i> 视频教程</a></li>
+                    <li><a title="开发文档" href="http://doc.ruoyi.vip" target="_blank"><i class="fa fa-question-circle"></i> 开发文档</a></li>
+	                <li><a title="全屏显示" href="javascript:void(0)" id="fullScreen"><i class="fa fa-arrows-alt"></i> 全屏显示</a></li>-->
+                    <li class="dropdown user-menu">
+						<a href="javascript:void(0)" class="dropdown-toggle" data-hover="dropdown">
+							<img th:src="(${user.avatar} == '') ? @{/img/profile.jpg} : @{${user.avatar}}" class="user-image">
+							<span class="hidden-xs">[[admin]]</span>
+						</a>
+						<ul class="dropdown-menu">
+							<li class="mt5">
+								<a th:href="@{/system/user/profile}" class="menuItem">
+								<i class="fa fa-user"></i> 个人中心</a>
+							</li>
+							<li>
+								<a onclick="resetPwd()">
+								<i class="fa fa-key"></i> 修改密码</a>
+							</li>
+							<li>
+								<a onclick="switchSkin()">
+								<i class="fa fa-dashboard"></i> 切换主题</a>
+							</li>
+							<li class="divider"></li>
+							<li>
+								<a th:href="@{logout}">
+								<i class="fa fa-sign-out"></i> 退出登录</a>
+							</li>
+						</ul>
+					</li>
+                </ul>
+            </nav>
+        </div>
+		<!--<div id="menu-box">-->
+			<!--<nav class="list">-->
+				<!--<a class="nav-menus menuItem"  th:href="@{/system/budget}">我的工作台</a>-->
+				<!--<a class="nav-menus menuItem" th:href="@{/system/budgetgoal}">预算执行</a>-->
+				<!--<a class="nav-menus menuItem" th:href="@{/system/management}">物流管理</a>-->
+				<!--<a class="nav-menus menuItem" th:href="@{/system/budget}">报表系统</a>-->
+				<!--<a class="nav-menus menuItem" th:href="@{/system/budget}">酬金管理</a>-->
+				<!--<a class="nav-menus menuItem" th:href="@{/system/budget}">客户资金</a>-->
+				<!--<a class="nav-menus menuItem" th:href="@{/system/budget}">托收管理</a>-->
+				<!--<a class="nav-menus menuItem"  th:href="@{/system/budget}">工程监控</a>-->
+				<!--<a class="nav-menus menuItem" th:href="@{/system/budget}">迁改收款管理</a>-->
+				<!--<a class="nav-menus menuItem" th:href="@{/system/budget}">营业成本管理</a>-->
+				<!--<a class="nav-menus menuItem" th:href="@{/system/budget}">资产管理</a>-->
+			<!--</nav>-->
+		<!--</div>-->
+        <!--<div class="row content-tabs">-->
+            <!--<button class="roll-nav roll-left tabLeft">-->
+                <!--<i class="fa fa-backward"></i>-->
+            <!--</button>-->
+            <!--<nav class="page-tabs menuTabs">-->
+                <!--<div class="page-tabs-content">-->
+					<!--<a style="width:9%;" class="nav-menus" href="#">我的工作台</a>-->
+					<!--<a style="width:9%;" class="nav-menus" href="#">预算资金</a>-->
+					<!--<a style="width:9%;" class="nav-menus" href="#">物流管理</a>-->
+					<!--<a style="width:9%;" class="nav-menus" href="#">报表系统</a>-->
+					<!--<a style="width:9%;" class="nav-menus" href="#">酬金管理</a>-->
+					<!--<a style="width:9%;" class="nav-menus" href="#">客户资金</a>-->
+					<!--<a style="width:9%;" class="nav-menus" href="#">托收管理</a>-->
+					<!--<a style="width:9%;" class="nav-menus"  href="#">工程监控</a>-->
+					<!--<a style="width:9%;" class="nav-menus" href="#">迁改收款管理</a>-->
+					<!--<a style="width:9%;" class="nav-menus" href="#">营业成本管理</a>-->
+					<!--<a style="width:9%;" class="nav-menus" href="#">资产管理</a>-->
+                <!--</div>-->
+            <!--</nav>-->
+            <!--<button class="roll-nav roll-right tabRight">-->
+                <!--<i class="fa fa-forward"></i>-->
+            <!--</button>-->
+            <!--<a href="javascript:void(0);" class="roll-nav roll-right tabReload"><i class="fa fa-refresh"></i> 刷新</a>-->
+        <!--</div>-->
+
+        <a id="ax_close_max" class="ax_close_max" href="#" title="关闭全屏"> <i class="fa fa-times-circle-o"></i> </a>
+
+        <div class="row mainContent" id="content-main">
+            <iframe class="RuoYi_iframe" name="iframe0" width="100%" height="100%" data-id="/system/main"
+                    th:src="@{/system/main}" frameborder="0" seamless></iframe>
+        </div>
+        <div class="footer">
+            <div class="pull-right">© [[${copyrightYear}]] 移动 Copyright </div>
+        </div>
+    </div>
+
+
+    <!--右侧部分结束-->
+</div>
+
+<!-- 全局js -->
+<script th:src="@{/js/jquery.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/plugins/metisMenu/jquery.metisMenu.js}"></script>
+<script th:src="@{/js/plugins/slimscroll/jquery.slimscroll.min.js}"></script>
+<script th:src="@{/js/jquery.contextMenu.min.js}"></script>
+<script th:src="@{/ajax/libs/blockUI/jquery.blockUI.js}"></script>
+<script th:src="@{/ajax/libs/layer/layer.min.js}"></script>
+<script th:src="@{/ruoyi/js/ry-ui.js?v=4.2.0}"></script>
+<script th:src="@{/ruoyi/js/common.js?v=4.2.0}"></script>
+<script th:src="@{/ruoyi/index.js}"></script>
+<script th:src="@{/ajax/libs/fullscreen/jquery.fullscreen.js}"></script>
+<script th:inline="javascript">
+	$(function(){
+		$(".nav-list").eq(0).css({"display":"block"});
+		$('.nav-menus-a').click(function(){
+			var indexs=$('.nav-menus-a').index(this);
+			$(".menus").eq(indexs).addClass('active').siblings().removeClass('active');
+			$('.nav-second-level').eq(indexs).slideDown(500,function(){
+				$('.nav-second-level').eq(indexs).addClass('in')
+			}).parent().siblings('li').children('.nav-second-level').slideUp(200,function(){
+				$('.nav-second-level').eq(indexs).slideDown(500).parent().siblings('li').children('.nav-second-level').removeClass('in');
+			});
+
+			//$(".nav-list").eq(indexs).css({"display":"block"}).siblings().css({"display":"none"})
+	    })
+		$(".nav-menus-a").click(function(){
+			var ids=$('.nav-menus-a').index(this);
+			$('.nav-menus-a').eq(ids).addClass('borders').siblings().removeClass('borders');
+		})
+	})
+</script>
+<script th:inline="javascript">
+var ctx = [[@{/}]];
+// 皮肤缓存
+var skin = storage.get("skin");
+// history（表示去掉地址的#）否则地址以"#"形式展示
+var mode = "history";
+// 历史访问路径缓存
+var historyPath = storage.get("historyPath");
+
+// 本地主题优先，未设置取系统配置
+if($.common.isNotEmpty(skin)){
+	$("body").addClass(skin.split('|')[0]);
+	$("body").addClass(skin.split('|')[1]);
+} else {
+	$("body").addClass([[${sideTheme}]]);
+	$("body").addClass([[${skinName}]]);
+}
+
+/* 用户管理-重置密码 */
+function resetPwd() {
+    var url = ctx + 'system/user/profile/resetPwd';
+    $.modal.open("重置密码", url, '770', '380');
+}
+/* 切换主题 */
+function switchSkin() {
+    layer.open({
+		type : 2,
+		shadeClose : true,
+		title : "切换主题",
+		area : ["530px", "386px"],
+		content : [ctx + "system/switchSkin", 'no']
+	})
+}
+
+/** 刷新时访问路径页签 */
+function applyPath(url) {
+	$('a[href$="' + decodeURI(url) + '"]').click();
+    $('a[href$="' + url + '"]').parent("li").addClass("selected").parents("li :not(.user-panel)").addClass("active").end().parents("ul").addClass("in");
+}
+
+$(function() {
+	if($.common.equals("history", mode) && window.performance.navigation.type == 1) {
+		var url = storage.get('publicPath');
+	    if ($.common.isNotEmpty(url)) {
+	    	applyPath(url);
+	    }
+	} else {
+		var hash = location.hash;
+	    if ($.common.isNotEmpty(hash)) {
+	        var url = hash.substring(1, hash.length);
+	        applyPath(url);
+	    }
+	}
+});
+</script>
+</body>
+</html>

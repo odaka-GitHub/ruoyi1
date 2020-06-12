@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+	<th:block th:include="include :: header('专票列表')" />
+</head>
+<body class="gray-bg">
+	<div class="container-div">
+		<div class="row">
+			<div class="col-sm-12 search-collapse">
+				<form id="post-form">
+					<div class="select-list">
+						<ul>
+							<li>
+								发票种类代码：<input type="text" name="invoiceTypeCode"/>
+							</li>
+							<li>
+								发票代码：<input type="text" name="invoiceCode"/>
+							</li>
+							<li>
+								购方税号：<input type="text" name="taxNum"/>
+							</li>
+							<li>
+								<a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+							    <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+							</li>
+						</ul>
+					</div>
+				</form>
+			</div>
+			
+			<div class="btn-group-sm" id="toolbar" role="group">
+				<a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:specialInvoice:add">
+	                <i class="fa fa-plus"></i> 新增
+	            </a>
+				<a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="system:specialInvoice:edit">
+		            <i class="fa fa-edit"></i> 修改
+		        </a>
+				<a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:specialInvoice:remove">
+		            <i class="fa fa-remove"></i> 删除
+		        </a>
+				<a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:specialInvoice:export">
+		            <i class="fa fa-download"></i> 导出
+		        </a>
+	        </div>
+	        
+	        <div class="col-sm-12 select-table table-striped">
+			    <table id="bootstrap-table"></table>
+			</div>
+		</div>
+	</div>
+	<th:block th:include="include :: footer" />
+	<script th:inline="javascript">
+		var editFlag = [[${@permission.hasPermi('system:specialInvoice:edit')}]];
+		var removeFlag = [[${@permission.hasPermi('system:specialInvoice:remove')}]];
+		var datas = [[${@dict.getType('sys_normal_disable')}]];
+		var prefix = ctx + "system/specialInvoice";
+
+		$(function() {
+		    var options = {
+		        url: prefix + "/list",
+		        createUrl: prefix + "/add",
+		        updateUrl: prefix + "/edit/{id}",
+		        removeUrl: prefix + "/remove",
+		        exportUrl: prefix + "/export",
+		        modalName: "专票",
+		        columns: [{
+		            checkbox: true
+		        },
+		        {
+		            field: 'id',
+		            title: '行号(必输)'
+		        },
+		        {
+		            field: 'invoiceTypeCode',
+		            title: '发票种类代码',
+		            sortable: true
+		        },
+		        {
+		            field: 'invoiceCode',
+		            title: '发票代码',
+		            sortable: true
+		        },
+		        {
+		            field: 'invoiceNum',
+		            title: '发票号码',
+		            sortable: true
+		        },
+					{
+						field: 'invoicePagination',
+						title: '发票页码',
+						sortable: true
+					},{
+						field: 'invoiceDate',
+						title: '发票日期',
+						sortable: true,
+						formatter:function(value, row , index){
+
+							return value.substr(0,10);;
+						}
+					},
+					{
+						field: 'taxExclusive',
+						title: '不含税金额',
+						sortable: true
+					},
+					{
+						field: 'taxNum',
+						title: '购方税号',
+						sortable: true
+					},
+					{
+						field: 'detailProperty',
+						title: '项目属性',
+						sortable: true
+					},
+					{
+						field: 'redMessage',
+						title: '红色信息表号',
+						sortable: true
+					}]
+		    };
+		    $.table.init(options);
+		})
+	</script>
+</body>
+</html>

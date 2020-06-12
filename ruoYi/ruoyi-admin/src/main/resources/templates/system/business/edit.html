@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+	<th:block th:include="include :: header('修改岗位')" />
+</head>
+<body class="white-bg">
+	<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+		<form class="form-horizontal m" id="form-business-edit" th:object="${business}">
+			<input id="id" name="id" type="hidden" th:field="*{id}"/>
+			<div class="form-group">
+				<label class="col-sm-3 control-label is-required">预算科目：</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" name="subject" id="subject" th:field="*{subject}" required>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label is-required">计量单位：</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" name="unit" id="unit" th:field="*{unit}" required>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label is-required">调整前预算值：</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" name="adjustBudget" id="adjustBudget" th:field="*{adjustBudget}" required>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label is-required">调整后预算值：</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" name="adjustBudget2" id="adjustBudget2" th:field="*{adjustBudget2}" required>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label is-required">差额：</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" name="balance" id="balance" th:field="*{balance}" required>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">状态：</label>
+				<div class="col-sm-8">
+					<textarea id="remark" name="remark" class="form-control">[[*{remark}]]</textarea>
+				</div>
+			</div>
+		</form>
+	</div>
+	<th:block th:include="include :: footer" />
+	<script type="text/javascript">
+		var prefix = ctx + "system/business";
+		
+		function submitHandler() {
+				if ($.validate.form()) {
+	        	$.operate.save(prefix + "/edit", $('#form-business-edit').serialize());
+	        }
+	    }
+	</script>
+</body>
+</html>

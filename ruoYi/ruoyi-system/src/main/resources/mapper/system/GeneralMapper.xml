@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.GeneralMapper">
+
+	<resultMap type="General" id="GeneralResult">
+		<id     property="id"        column="id"       />
+		<result property="invoiceTypeCode"      column="invoiceTypeCode"     />
+		<result property="invoiceCode"      column="invoiceCode"     />
+		<result property="invoiceDate"      column="invoiceDate"     />
+		<result property="notate"      column="notate"     />
+		<result property="international"        column="international"        />
+		<result property="subsidy"        column="subsidy"        />
+		<result property="taxCode"      column="taxCode"     />
+		<result property="fares"        column="fares"        />
+		<result property="civilAviation"      column="civilAviation"     />
+		<result property="fuelSurcharge"      column="fuelSurcharge"     />
+		<result property="taxFee"        column="taxFee"        />
+		<result property="sum"        column="sum"        />
+		<result property="sum1"      column="sum1"     />
+		<result property="taxNum"        column="taxNum"        />
+		<result property="taxName"        column="taxName"        />
+		<result property="saleNum"      column="saleNum"     />
+		<result property="saleName"        column="saleName"        />
+	</resultMap>
+
+	<sql id="selectGeneralVo">
+        select id, invoiceTypeCode, invoiceCode,invoiceDate,notate,international,subsidy,taxCode,fares,civilAviation,fuelSurcharge,taxFee,sum,sum1,taxNum,taxName,saleNum,saleName
+		from general
+    </sql>
+
+	<select id="selectGeneralList" parameterType="General" resultMap="GeneralResult">
+	    <include refid="selectGeneralVo"/>
+		<where>
+			<if test="invoiceTypeCode != null and invoiceTypeCode != ''">
+				AND invoiceTypeCode like concat('%', #{invoiceTypeCode}, '%')
+			</if>
+			<if test="taxName != null and taxName != ''">
+				AND taxName = #{taxName}
+			</if>
+			<if test="saleName != null and saleName != ''">
+				AND saleName like concat('%', #{saleName}, '%')
+			</if>
+		</where>
+	</select>
+
+	<select id="selectGeneralAll" resultMap="GeneralResult">
+		<include refid="selectGeneralVo"/>
+	</select>
+
+	<select id="selectGeneralById" parameterType="Long" resultMap="GeneralResult">
+		<include refid="selectGeneralVo"/>
+		where id = #{id}
+	</select>
+
+ 	<delete id="deleteGeneralByIds" parameterType="Long">
+ 		delete from general where id in
+ 		<foreach collection="array" item="id" open="(" separator="," close=")">
+ 			#{id}
+        </foreach>
+ 	</delete>
+
+ 	<update id="updateGeneral" parameterType="General">
+ 		update general
+ 		<set>
+ 			<if test="invoiceTypeCode != null and invoiceTypeCode != ''">invoiceTypeCode = #{invoiceTypeCode},</if>
+ 			<if test="invoiceCode != null and invoiceCode != ''">invoiceCode = #{invoiceCode},</if>
+			<if test="invoiceDate != null">invoiceDate = #{invoiceDate},</if>
+			<if test="notate != null and notate != ''">notate = #{notate},</if>
+			<if test="international != null and international != ''">international = #{international},</if>
+ 			<if test="subsidy != null">subsidy = #{subsidy},</if>
+			<if test="taxCode != null and taxCode != ''">taxCode = #{taxCode},</if>
+			<if test="fares != null and fares != ''">fares = #{fares},</if>
+			<if test="civilAviation != null and civilAviation != ''">civilAviation = #{civilAviation},</if>
+			<if test="fuelSurcharge != null and fuelSurcharge != ''">fuelSurcharge = #{fuelSurcharge},</if>
+			<if test="taxFee != null">taxFee = #{taxFee},</if>
+			<if test="sum != null and sum != ''">sum = #{sum},</if>
+			<if test="sum1 != null and sum1 != ''">sum1 = #{sum1},</if>
+			<if test="taxNum != null and taxNum != ''">taxNum = #{taxNum},</if>
+			<if test="taxName != null">taxName = #{taxName},</if>
+			<if test="saleNum != null and saleNum != ''">saleNum = #{saleNum},</if>
+			<if test="saleName != null and saleName != ''">saleName = #{saleName}</if>
+ 		</set>
+ 		where id = #{id}
+	</update>
+
+ 	<insert id="insertGeneral" parameterType="General" useGeneratedKeys="true" keyProperty="id">
+ 		insert into general(
+ 			<if test="id != null and id != 0">id,</if>
+		    <if test="invoiceTypeCode != null and invoiceTypeCode != ''">invoiceTypeCode,</if>
+		    <if test="invoiceCode != null and invoiceCode != ''">invoiceCode,</if>
+		    <if test="invoiceDate != null">invoiceDate,</if>
+		    <if test="notate != null and notate != ''">notate,</if>
+		    <if test="international != null and international != ''">international,</if>
+		    <if test="subsidy != null">subsidy,</if>
+		    <if test="taxCode != null and taxCode != ''">taxCode,</if>
+		    <if test="fares != null and fares != ''">fares,</if>
+		    <if test="civilAviation != null and civilAviation != ''">civilAviation,</if>
+		    <if test="fuelSurcharge != null and fuelSurcharge != ''">fuelSurcharge,</if>
+		    <if test="taxFee != null">taxFee,</if>
+		    <if test="sum != null and sum != ''">sum,</if>
+		    <if test="sum1 != null and sum1 != ''">sum1,</if>
+		    <if test="taxNum != null and taxNum != ''">taxNum,</if>
+		    <if test="taxName != null">taxName,</if>
+		    <if test="saleNum != null and saleNum != ''">saleNum,</if>
+		    <if test="saleName != null and saleName != ''">saleName</if>
+ 		)values(
+ 			<if test="id != null and id != 0">#{id},</if>
+            <if test="invoiceCode != null and invoiceCode != ''">#{invoiceCode},</if>
+            <if test="invoiceDate != null">#{invoiceDate},</if>
+            <if test="notate != null and notate != ''">#{notate},</if>
+            <if test="international != null and international != ''">#{international},</if>
+            <if test="subsidy != null">#{subsidy},</if>
+            <if test="taxCode != null and taxCode != ''">#{taxCode},</if>
+            <if test="fares != null and fares != ''">#{fares},</if>
+            <if test="civilAviation != null and civilAviation != ''">#{civilAviation},</if>
+            <if test="fuelSurcharge != null and fuelSurcharge != ''">#{fuelSurcharge},</if>
+            <if test="taxFee != null">#{taxFee},</if>
+            <if test="sum != null and sum != ''">#{sum},</if>
+            <if test="sum1 != null and sum1 != ''">#{sum1},</if>
+            <if test="taxNum != null and taxNum != ''">#{taxNum},</if>
+            <if test="taxName != null">#{taxName},</if>
+            <if test="saleNum != null and saleNum != ''">#{saleNum},</if>
+            <if test="saleName != null and saleName != ''">#{saleName}</if>
+ 		)
+	</insert>
+
+</mapper> 

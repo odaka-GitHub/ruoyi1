@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.SpecialInvoiceMapper">
+
+	<resultMap type="SpecialInvoice" id="SpecialInvoiceResult">
+		<id     property="id"        column="id"       />
+		<result property="invoiceTypeCode"      column="invoiceTypeCode"     />
+		<result property="invoiceCode"      column="invoiceCode"     />
+		<result property="invoiceNum"      column="invoiceNum"     />
+		<result property="invoicePagination"        column="invoicePagination"        />
+		<result property="invoiceDate"      column="invoiceDate"     />
+		<result property="taxExclusive"        column="taxExclusive"        />
+		<result property="taxNum"      column="taxNum"     />
+		<result property="detailProperty"        column="detailProperty"        />
+		<result property="redMessage"        column="redMessage"        />
+	</resultMap>
+	
+	<sql id="selectSpecialInvoiceVo">
+        select id, invoiceTypeCode, invoiceCode, invoiceNum, invoicePagination, invoiceDate,taxExclusive,taxNum,detailProperty,redMessage
+		from specialInvoice
+    </sql>
+	
+	<select id="selectSpecialInvoiceList" parameterType="SpecialInvoice" resultMap="SpecialInvoiceResult">
+	    <include refid="selectSpecialInvoiceVo"/>
+		<where>
+			<if test="invoiceTypeCode != null and invoiceTypeCode != ''">
+				AND invoiceTypeCode like concat('%', #{invoiceTypeCode}, '%')
+			</if>
+			<if test="invoiceCode != null and invoiceCode != ''">
+				AND invoiceCode = #{invoiceCode}
+			</if>
+			<if test="taxNum != null and taxNum != ''">
+				AND taxNum like concat('%', #{taxNum}, '%')
+			</if>
+		</where>
+	</select>
+	
+	<select id="selectSpecialInvoiceAll" resultMap="SpecialInvoiceResult">
+		<include refid="selectSpecialInvoiceVo"/>
+	</select>
+	
+	<select id="selectSpecialInvoiceById" parameterType="Long" resultMap="SpecialInvoiceResult">
+		<include refid="selectSpecialInvoiceVo"/>
+		where id = #{id}
+	</select>
+	
+ 	<delete id="deleteSpecialInvoiceByIds" parameterType="Long">
+ 		delete from specialInvoice where id in
+ 		<foreach collection="array" item="id" open="(" separator="," close=")">
+ 			#{id}
+        </foreach> 
+ 	</delete>
+ 	
+ 	<update id="updateSpecialInvoice" parameterType="SpecialInvoice">
+ 		update specialInvoice
+ 		<set>
+ 			<if test="invoiceTypeCode != null and invoiceTypeCode != ''">invoiceTypeCode = #{invoiceTypeCode},</if>
+ 			<if test="invoiceCode != null and invoiceCode != ''">invoiceCode = #{invoiceCode},</if>
+ 			<if test="invoiceNum != null and invoiceNum != ''">invoiceNum = #{invoiceNum},</if>
+ 			<if test="invoicePagination != null and invoicePagination != ''">invoicePagination = #{invoicePagination},</if>
+			<if test="invoiceDate != null">invoiceDate = #{invoiceDate},</if>
+ 			<if test="taxExclusive != null">taxExclusive = #{taxExclusive},</if>
+			<if test="taxNum != null and taxNum != ''">taxNum = #{taxNum},</if>
+			<if test="detailProperty != null and detailProperty != ''">detailProperty = #{detailProperty},</if>
+			<if test="redMessage != null and redMessage != ''">redMessage = #{redMessage}</if>
+ 		</set>
+ 		where id = #{id}
+	</update>
+ 	
+ 	<insert id="insertSpecialInvoice" parameterType="SpecialInvoice" useGeneratedKeys="true" keyProperty="id">
+ 		insert into specialInvoice(
+ 			<if test="id != null and id != 0">id,</if>
+ 			<if test="invoiceTypeCode != null and invoiceTypeCode != ''">invoiceTypeCode,</if>
+ 			<if test="invoiceCode != null and invoiceCode != ''">invoiceCode,</if>
+ 			<if test="invoiceNum != null and invoiceNum != ''">invoiceNum,</if>
+ 			<if test="invoicePagination != null and invoicePagination != ''">invoicePagination,</if>
+		    <if test="invoiceDate != null">invoiceDate,</if>
+ 			<if test="taxExclusive != null and taxExclusive != ''">taxExclusive,</if>
+			<if test="taxNum != null and taxNum != ''">taxNum,</if>
+			<if test="detailProperty != null and detailProperty != ''">detailProperty,</if>
+			<if test="redMessage != null and redMessage != ''">redMessage</if>
+ 		)values(
+ 			<if test="id != null and id != 0">#{id},</if>
+ 			<if test="invoiceTypeCode != null and invoiceTypeCode != ''">#{invoiceTypeCode},</if>
+ 			<if test="invoiceCode != null and invoiceCode != ''">#{invoiceCode},</if>
+ 			<if test="invoiceNum != null and invoiceNum != ''">#{invoiceNum},</if>
+ 			<if test="invoicePagination != null and invoicePagination != ''">#{invoicePagination},</if>
+			<if test="invoiceDate != null">#{invoiceDate},</if>
+ 			<if test="taxExclusive != null and taxExclusive != ''">#{taxExclusive},</if>
+			<if test="taxNum != null and taxNum != ''">#{taxNum},</if>
+			<if test="detailProperty != null and detailProperty != ''">#{detailProperty},</if>
+			<if test="redMessage != null and redMessage != ''">#{redMessage}</if>
+ 		)
+	</insert>
+
+</mapper> 

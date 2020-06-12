@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.CentralizationMapper">
+
+	<resultMap type="Centralization" id="CentralizationResult">
+		<id     property="id"        column="id"       />
+		<result property="feeMonth"      column="feeMonth"     />
+		<result property="thisPayment"      column="thisPayment"     />
+		<result property="taxRate"      column="taxRate"     />
+		<result property="payTaxes"        column="payTaxes"        />
+		<result property="purpose"      column="purpose"     />
+		<result property="feeId"        column="feeId"        />
+	</resultMap>
+	
+	<sql id="selectCentralizationVo">
+        select feeMonth,id, thisPayment, taxRate, payTaxes, purpose, feeId
+		from centralization
+    </sql>
+	
+	<select id="selectCentralizationList" parameterType="Centralization" resultMap="CentralizationResult">
+	    <include refid="selectCentralizationVo"/>
+		<where>
+			<if test="feeMonth != null and feeMonth != ''">
+				AND feeMonth like concat('%', #{feeMonth}, '%')
+			</if>
+			<if test="id != null and id != ''">
+				AND id = #{id}
+			</if>
+			<if test="feeId != null and feeId != ''">
+				AND feeId like concat('%', #{feeId}, '%')
+			</if>
+		</where>
+	</select>
+	
+	<select id="selectCentralizationAll" resultMap="CentralizationResult">
+		<include refid="selectCentralizationVo"/>
+	</select>
+	
+	<select id="selectCentralizationById" parameterType="Long" resultMap="CentralizationResult">
+		<include refid="selectCentralizationVo"/>
+		where id = #{id}
+	</select>
+	
+ 	<delete id="deleteCentralizationByIds" parameterType="Long">
+ 		delete from centralization where id in
+ 		<foreach collection="array" item="id" open="(" separator="," close=")">
+ 			#{id}
+        </foreach> 
+ 	</delete>
+ 	
+ 	<update id="updateCentralization" parameterType="Centralization">
+ 		update centralization
+ 		<set>
+ 			<if test="feeMonth != null and feeMonth != ''">feeMonth = #{feeMonth},</if>
+ 			<if test="thisPayment != null and thisPayment != ''">thisPayment = #{thisPayment},</if>
+ 			<if test="taxRate != null and taxRate != ''">taxRate = #{taxRate},</if>
+ 			<if test="payTaxes != null and payTaxes != ''">payTaxes = #{payTaxes},</if>
+			<if test="purpose != null and purpose != ''">purpose = #{purpose},</if>
+ 			<if test="feeId != null">feeId = #{feeId}</if>
+ 		</set>
+ 		where id = #{id}
+	</update>
+ 	
+ 	<insert id="insertCentralization" parameterType="Centralization" useGeneratedKeys="true" keyProperty="id">
+ 		insert into centralization(
+			<if test="feeMonth != null and feeMonth != ''">feeMonth,</if>
+ 			<if test="id != null and id != 0">id,</if>
+ 			<if test="thisPayment != null and thisPayment != ''">thisPayment,</if>
+ 			<if test="taxRate != null and taxRate != ''">taxRate,</if>
+ 			<if test="payTaxes != null and payTaxes != ''">payTaxes,</if>
+ 			<if test="purpose != null and purpose != ''">purpose,</if>
+		    <if test="feeId != null and feeId != ''">feeId</if>
+ 		)values(
+			<if test="feeMonth != null and feeMonth != ''">#{feeMonth},</if>
+ 			<if test="id != null and id != 0">#{id},</if>
+ 			<if test="thisPayment != null and thisPayment != ''">#{thisPayment},</if>
+ 			<if test="taxRate != null and taxRate != ''">#{taxRate},</if>
+ 			<if test="payTaxes != null and payTaxes != ''">#{payTaxes},</if>
+ 			<if test="purpose != null and purpose != ''">#{purpose},</if>
+ 			<if test="feeId != null and feeId != ''">#{feeId}</if>
+ 		)
+	</insert>
+
+</mapper> 

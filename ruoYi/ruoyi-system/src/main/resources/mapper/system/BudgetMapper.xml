@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.BudgetMapper">
+
+	<resultMap type="Budget" id="BudgetResult">
+		<id     property="id"        column="id"       />
+		<result property="subject"      column="subject"     />
+		<result property="unit"      column="unit"     />
+		<result property="budgetValue"      column="budgetValue"     />
+		<result property="accomplishValue"        column="accomplishValue"        />
+		<result property="budgetValue2"      column="budgetValue2"     />
+		<result property="remark"        column="remark"        />
+	</resultMap>
+	
+	<sql id="selectBudgetVo">
+        select id, subject, unit, budgetValue, accomplishValue, budgetValue2,remark
+		from budget
+    </sql>
+	
+	<select id="selectBudgetList" parameterType="Budget" resultMap="BudgetResult">
+	    <include refid="selectBudgetVo"/>
+		<where>
+			<if test="subject != null and subject != ''">
+				AND subject like concat('%', #{subject}, '%')
+			</if>
+			<if test="accomplishValue != null and accomplishValue != ''">
+				AND accomplishValue = #{accomplishValue}
+			</if>
+			<if test="remark != null and remark != ''">
+				AND remark like concat('%', #{remark}, '%')
+			</if>
+		</where>
+	</select>
+	
+	<select id="selectBudgetAll" resultMap="BudgetResult">
+		<include refid="selectBudgetVo"/>
+	</select>
+	
+	<select id="selectBudgetById" parameterType="Long" resultMap="BudgetResult">
+		<include refid="selectBudgetVo"/>
+		where id = #{id}
+	</select>
+	
+ 	<delete id="deleteBudgetByIds" parameterType="Long">
+ 		delete from budget where id in
+ 		<foreach collection="array" item="id" open="(" separator="," close=")">
+ 			#{id}
+        </foreach> 
+ 	</delete>
+ 	
+ 	<update id="updateBudget" parameterType="Budget">
+ 		update budget
+ 		<set>
+ 			<if test="subject != null and subject != ''">subject = #{subject},</if>
+ 			<if test="unit != null and unit != ''">unit = #{unit},</if>
+ 			<if test="budgetValue != null and budgetValue != ''">budgetValue = #{budgetValue},</if>
+ 			<if test="accomplishValue != null and accomplishValue != ''">accomplishValue = #{accomplishValue},</if>
+			<if test="budgetValue2 != null and budgetValue2 != ''">budgetValue2 = #{budgetValue2},</if>
+ 			<if test="remark != null">remark = #{remark}</if>
+ 		</set>
+ 		where id = #{id}
+	</update>
+ 	
+ 	<insert id="insertBudget" parameterType="Budget" useGeneratedKeys="true" keyProperty="id">
+ 		insert into budget(
+ 			<if test="id != null and id != 0">id,</if>
+ 			<if test="subject != null and subject != ''">subject,</if>
+ 			<if test="unit != null and unit != ''">unit,</if>
+ 			<if test="budgetValue != null and budgetValue != ''">budgetValue,</if>
+ 			<if test="accomplishValue != null and accomplishValue != ''">accomplishValue,</if>
+		    <if test="budgetValue2 != null and budgetValue2 != ''">budgetValue2,</if>
+ 			<if test="remark != null and remark != ''">remark</if>
+ 		)values(
+ 			<if test="id != null and id != 0">#{id},</if>
+ 			<if test="subject != null and subject != ''">#{subject},</if>
+ 			<if test="unit != null and unit != ''">#{unit},</if>
+ 			<if test="budgetValue != null and budgetValue != ''">#{budgetValue},</if>
+ 			<if test="accomplishValue != null and accomplishValue != ''">#{accomplishValue},</if>
+			<if test="budgetValue2 != null and budgetValue2 != ''">#{budgetValue2},</if>
+ 			<if test="remark != null and remark != ''">#{remark}</if>
+ 		)
+	</insert>
+
+</mapper> 

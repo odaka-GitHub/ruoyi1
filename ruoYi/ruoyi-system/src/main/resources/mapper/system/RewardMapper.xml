@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.RewardMapper">
+
+	<resultMap type="Reward" id="RewardResult">
+		<id     property="id"        column="id"       />
+		<result property="area"      column="area"     />
+		<result property="counties"      column="counties"     />
+		<result property="regional"      column="regional"     />
+		<result property="channelType"        column="channelType"        />
+		<result property="channelType1"        column="channelType1"        />
+		<result property="merchantId"      column="merchantId"     />
+		<result property="merchant"        column="merchant"        />
+		<result property="subjectType"      column="subjectType"     />
+		<result property="businessType"      column="businessType"     />
+		<result property="brand"      column="brand"     />
+		<result property="averagePrice"        column="averagePrice"        />
+		<result property="count"      column="count"     />
+		<result property="rewardSum"        column="rewardSum"        />
+		<result property="paidSum"        column="paidSum"        />
+		<result property="calculation"      column="calculation"     />
+		<result property="rewardSum1"        column="rewardSum1"        />
+	</resultMap>
+	
+	<sql id="selectRewardVo">
+        select id, area, counties, regional, channelType,channelType,channelType1, merchantId,merchant,subjectType,businessType,brand,averagePrice,count,rewardSum,paidSum,
+calculation,rewardSum1		from reward
+    </sql>
+	
+	<select id="selectRewardList" parameterType="Reward" resultMap="RewardResult">
+	    <include refid="selectRewardVo"/>
+		<where>
+			<if test="id != null and id != ''">
+				AND id like concat('%', #{id}, '%')
+			</if>
+			<if test="channelType != null and channelType != ''">
+				AND channelType = #{channelType}
+			</if>
+			<if test="merchantId != null and merchantId != ''">
+				AND merchantId like concat('%', #{merchantId}, '%')
+			</if>
+		</where>
+	</select>
+	
+	<select id="selectRewardAll" resultMap="RewardResult">
+		<include refid="selectRewardVo"/>
+	</select>
+	
+	<select id="selectRewardById" parameterType="Long" resultMap="RewardResult">
+		<include refid="selectRewardVo"/>
+		where id = #{id}
+	</select>
+	
+ 	<delete id="deleteRewardByIds" parameterType="Long">
+ 		delete from reward where id in
+ 		<foreach collection="array" item="id" open="(" separator="," close=")">
+ 			#{id}
+        </foreach> 
+ 	</delete>
+ 	
+ 	<update id="updateReward" parameterType="Reward">
+ 		update reward
+ 		<set>
+ 			<if test="area != null and area != ''">area = #{area},</if>
+ 			<if test="counties != null and counties != ''">counties = #{counties},</if>
+ 			<if test="regional != null and regional != ''">regional = #{regional},</if>
+ 			<if test="channelType != null and channelType != ''">channelType = #{channelType},</if>
+			<if test="channelType1 != null and channelType1 != ''">channelType1 = #{channelType1},</if>
+ 			<if test="merchantId != null">merchantId = #{merchantId},</if>
+			<if test="merchant != null and merchant != ''">merchant = #{merchant},</if>
+			<if test="subjectType != null and subjectType != ''">subjectType = #{subjectType},</if>
+			<if test="businessType != null and businessType != ''">businessType = #{businessType},</if>
+			<if test="brand != null and brand != ''">brand = #{brand},</if>
+			<if test="averagePrice != null and averagePrice != ''">averagePrice = #{averagePrice},</if>
+			<if test="count != null and count != ''">count = #{count},</if>
+			<if test="rewardSum != null and rewardSum != ''">rewardSum = #{rewardSum},</if>
+			<if test="paidSum != null and paidSum != ''">paidSum = #{paidSum},</if>
+			<if test="calculation != null and calculation != ''">calculation = #{calculation},</if>
+			<if test="rewardSum1 != null and rewardSum1 != ''">rewardSum1 = #{rewardSum1}</if>
+ 		</set>
+ 		where id = #{id}
+	</update>
+ 	
+ 	<insert id="insertReward" parameterType="Reward" useGeneratedKeys="true" keyProperty="id">
+ 		insert into reward(
+ 			<if test="id != null and id != 0">id,</if>
+ 			<if test="area != null and area != ''">area,</if>
+ 			<if test="counties != null and counties != ''">counties,</if>
+ 			<if test="regional != null and regional != ''">regional,</if>
+ 			<if test="channelType != null and channelType != ''">channelType,</if>
+		    <if test="channelType1 != null and channelType1 != ''">channelType1,</if>
+ 			<if test="merchantId != null and merchantId != ''">merchantId,</if>
+			<if test="merchant != null and merchant != ''">merchant,</if>
+			<if test="subjectType != null and subjectType != ''">subjectType,</if>
+			<if test="businessType != null and businessType != ''">businessType,</if>
+			<if test="brand != null and brand != ''">brand,</if>
+			<if test="averagePrice != null and averagePrice != ''">averagePrice,</if>
+			<if test="count != null and count != ''">count,</if>
+			<if test="rewardSum != null and rewardSum != ''">rewardSum,</if>
+			<if test="paidSum != null and paidSum != ''">paidSum,</if>
+			<if test="calculation != null and calculation != ''">calculation,</if>
+			<if test="rewardSum1 != null and rewardSum1 != ''">rewardSum1</if>
+ 		)values(
+ 			<if test="id != null and id != 0">#{id},</if>
+ 			<if test="area != null and area != ''">#{area},</if>
+ 			<if test="counties != null and counties != ''">#{counties},</if>
+ 			<if test="regional != null and regional != ''">#{regional},</if>
+ 			<if test="channelType != null and channelType != ''">#{channelType},</if>
+			<if test="channelType1 != null and channelType1 != ''">#{channelType1},</if>
+ 			<if test="merchantId != null and merchantId != ''">#{merchantId},</if>
+			<if test="merchant != null and merchant != ''">#{merchant},</if>
+			<if test="subjectType != null and subjectType != ''">#{subjectType},</if>
+			<if test="businessType != null and businessType != ''">#{businessType},</if>
+			<if test="brand != null and brand != ''">#{brand},</if>
+			<if test="averagePrice != null and averagePrice != ''">#{averagePrice},</if>
+			<if test="count != null and count != ''">#{count},</if>
+			<if test="rewardSum != null and rewardSum != ''">#{rewardSum},</if>
+			<if test="paidSum != null and paidSum != ''">#{paidSum},</if>
+			<if test="calculation != null and calculation != ''">#{calculation},</if>
+			<if test="rewardSum1 != null and rewardSum1 != ''">#{rewardSum1}</if>
+ 		)
+	</insert>
+
+</mapper> 

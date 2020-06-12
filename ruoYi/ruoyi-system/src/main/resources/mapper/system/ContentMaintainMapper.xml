@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.ContentMaintainMapper">
+
+	<resultMap type="ContentMaintain" id="ContentMaintainResult">
+		<id     property="id"        column="id"       />
+		<result property="manageContentName"      column="manageContentName"     />
+		<result property="remark"      column="remark"     />
+		<result property="modifier"      column="modifier"     />
+		<result property="modificationTime"        column="modificationTime"        />
+		<result property="start"      column="start"     />
+		<result property="monthly"        column="monthly"        />
+		<result property="preserve"      column="preserve"     />
+	</resultMap>
+	
+	<sql id="selectContentMaintainVo">
+        select id, manageContentName, remark, modifier, modificationTime, start,monthly,preserve
+		from contentMaintain
+    </sql>
+	
+	<select id="selectContentMaintainList" parameterType="ContentMaintain" resultMap="ContentMaintainResult">
+	    <include refid="selectContentMaintainVo"/>
+		<where>
+			<if test="manageContentName != null and manageContentName != ''">
+				AND manageContentName like concat('%', #{manageContentName}, '%')
+			</if>
+			<if test="start != null and start != ''">
+				AND start = #{start}
+			</if>
+			<if test="preserve != null and preserve != ''">
+				AND preserve like concat('%', #{preserve}, '%')
+			</if>
+		</where>
+	</select>
+	
+	<select id="selectContentMaintainAll" resultMap="ContentMaintainResult">
+		<include refid="selectContentMaintainVo"/>
+	</select>
+	
+	<select id="selectContentMaintainById" parameterType="Long" resultMap="ContentMaintainResult">
+		<include refid="selectContentMaintainVo"/>
+		where id = #{id}
+	</select>
+	
+ 	<delete id="deleteContentMaintainByIds" parameterType="Long">
+ 		delete from contentMaintain where id in
+ 		<foreach collection="array" item="id" open="(" separator="," close=")">
+ 			#{id}
+        </foreach> 
+ 	</delete>
+ 	
+ 	<update id="updateContentMaintain" parameterType="ContentMaintain">
+ 		update contentMaintain
+ 		<set>
+ 			<if test="manageContentName != null and manageContentName != ''">manageContentName = #{manageContentName},</if>
+ 			<if test="remark != null and remark != ''">remark = #{remark},</if>
+ 			<if test="modifier != null and modifier != ''">modifier = #{modifier},</if>
+			<if test="modificationTime != null">modificationTime = #{modificationTime},</if>
+ 			<if test="start != null">start = #{start},</if>
+			<if test="monthly != null and monthly != ''">monthly = #{monthly},</if>
+			<if test="preserve != null and preserve != ''">preserve = #{preserve}</if>
+ 		</set>
+ 		where id = #{id}
+	</update>
+ 	
+ 	<insert id="insertContentMaintain" parameterType="ContentMaintain" useGeneratedKeys="true" keyProperty="id">
+ 		insert into contentMaintain(
+ 			<if test="id != null and id != 0">id,</if>
+		<if test="manageContentName != null and manageContentName != ''">manageContentName,</if>
+		<if test="remark != null and remark != ''">remark,</if>
+		<if test="modifier != null and modifier != ''">modifier,</if>
+		<if test="modificationTime != null">modificationTime,</if>
+		<if test="start != null">start,</if>
+		<if test="monthly != null and monthly != ''">monthly,</if>
+		<if test="preserve != null and preserve != ''">preserve</if>
+ 		)values(
+ 			<if test="id != null and id != 0">#{id},</if>
+		<if test="manageContentName != null and manageContentName != ''">#{manageContentName},</if>
+		<if test="remark != null and remark != ''">#{remark},</if>
+		<if test="modifier != null and modifier != ''">#{modifier},</if>
+		<if test="modificationTime != null">#{modificationTime},</if>
+		<if test="start != null">#{start},</if>
+		<if test="monthly != null and monthly != ''">#{monthly},</if>
+		<if test="preserve != null and preserve != ''">#{preserve}</if>
+ 		)
+	</insert>
+
+</mapper> 

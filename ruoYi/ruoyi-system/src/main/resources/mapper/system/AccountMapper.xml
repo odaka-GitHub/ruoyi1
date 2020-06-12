@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.AccountMapper">
+
+	<resultMap type="Account" id="AccountResult">
+		<id     property="channelId"        column="channelId"       />
+		<result property="filiale"      column="filiale"     />
+		<result property="channelName"      column="channelName"     />
+		<result property="fee"      column="fee"     />
+		<result property="subsidy"      column="subsidy"     />
+		<result property="fee1"        column="fee1"        />
+		<result property="fee2"        column="fee2"        />
+		<result property="subsidy1"      column="subsidy1"     />
+		<result property="subsidy2"        column="subsidy2"        />
+		<result property="fee3"      column="fee3"     />
+		<result property="fee4"      column="fee4"     />
+		<result property="subsidy3"      column="subsidy3"     />
+		<result property="subsidy4"        column="subsidy4"        />
+		<result property="fee5"      column="fee5"     />
+		<result property="subsidy5"        column="subsidy5"        />
+		<result property="subtotal"        column="subtotal"        />
+		<result property="channelManager"      column="channelManager"     />
+	</resultMap>
+	
+	<sql id="selectAccountVo">
+        select filiale, channelId, channelName, fee, subsidy,fee1,fee2, subsidy1,subsidy2,fee3,fee4,subsidy3,subsidy4,fee5,subsidy5,subtotal,
+channelManager		from account
+    </sql>
+	
+	<select id="selectAccountList" parameterType="Account" resultMap="AccountResult">
+	    <include refid="selectAccountVo"/>
+		<where>
+			<if test="filiale != null and filiale != ''">
+				AND filiale like concat('%', #{filiale}, '%')
+			</if>
+			<if test="channelName != null and channelName != ''">
+				AND channelName = #{channelName}
+			</if>
+			<if test="channelManager != null and channelManager != ''">
+				AND channelManager like concat('%', #{channelManager}, '%')
+			</if>
+		</where>
+	</select>
+	
+	<select id="selectAccountAll" resultMap="AccountResult">
+		<include refid="selectAccountVo"/>
+	</select>
+	
+	<select id="selectAccountById" parameterType="Long" resultMap="AccountResult">
+		<include refid="selectAccountVo"/>
+		where channelId = #{channelId}
+	</select>
+	
+ 	<delete id="deleteAccountByIds" parameterType="Long">
+ 		delete from account where channelId in
+ 		<foreach collection="array" item="id" open="(" separator="," close=")">
+ 			#{channelId}
+        </foreach> 
+ 	</delete>
+ 	
+ 	<update id="updateAccount" parameterType="Account">
+ 		update account
+ 		<set>
+ 			<if test="filiale != null and filiale != ''">filiale = #{filiale},</if>
+ 			<if test="channelName != null and channelName != ''">channelName = #{channelName},</if>
+ 			<if test="fee != null and fee != ''">fee = #{fee},</if>
+ 			<if test="subsidy != null and subsidy != ''">subsidy = #{subsidy},</if>
+			<if test="fee1 != null and fee1 != ''">fee1 = #{fee1},</if>
+ 			<if test="fee2 != null">fee2 = #{fee2},</if>
+			<if test="subsidy1 != null and subsidy1 != ''">subsidy1 = #{subsidy1},</if>
+			<if test="subsidy2 != null and subsidy2 != ''">subsidy2 = #{subsidy2},</if>
+			<if test="fee3 != null and fee3 != ''">fee3 = #{fee3},</if>
+			<if test="fee4 != null and fee4 != ''">fee4 = #{fee4},</if>
+			<if test="subsidy3 != null and subsidy3 != ''">subsidy3 = #{subsidy3},</if>
+			<if test="subsidy4 != null and subsidy4 != ''">subsidy4 = #{subsidy4},</if>
+			<if test="fee5 != null and fee5 != ''">fee5 = #{fee5},</if>
+			<if test="subsidy5 != null and subsidy5 != ''">subsidy5 = #{subsidy5},</if>
+			<if test="subtotal != null and subtotal != ''">subtotal = #{subtotal},</if>
+			<if test="channelManager != null and channelManager != ''">channelManager = #{channelManager}</if>
+ 		</set>
+ 		where channelId = #{channelId}
+	</update>
+ 	
+ 	<insert id="insertAccount" parameterType="Account" useGeneratedKeys="true" keyProperty="id">
+ 		insert into account(
+ 			<if test="filiale != null and filiale != 0">filiale,</if>
+ 			<if test="channelId != null and channelId != ''">channelId,</if>
+ 			<if test="channelName != null and channelName != ''">channelName,</if>
+ 			<if test="fee != null and fee != ''">fee,</if>
+ 			<if test="subsidy != null and subsidy != ''">subsidy,</if>
+		    <if test="fee1 != null and fee1 != ''">fee1,</if>
+ 			<if test="fee2 != null and fee2 != ''">fee2,</if>
+			<if test="subsidy1 != null and subsidy1 != ''">subsidy1,</if>
+			<if test="subsidy2 != null and subsidy2 != ''">subsidy2,</if>
+			<if test="fee3 != null and fee3 != ''">fee3,</if>
+			<if test="fee4 != null and fee4 != ''">fee4,</if>
+			<if test="subsidy3 != null and subsidy3 != ''">subsidy3,</if>
+			<if test="subsidy4 != null and subsidy4 != ''">subsidy4,</if>
+			<if test="fee5 != null and fee5 != ''">fee5,</if>
+			<if test="subsidy5 != null and subsidy5 != ''">subsidy5,</if>
+			<if test="subtotal != null and subtotal != ''">subtotal,</if>
+			<if test="channelManager != null and channelManager != ''">channelManager</if>
+ 		)values(
+ 			<if test="filiale != null and filiale != 0">#{filiale},</if>
+ 			<if test="channelId != null and channelId != ''">#{channelId},</if>
+ 			<if test="channelName != null and channelName != ''">#{channelName},</if>
+ 			<if test="fee != null and fee != ''">#{fee},</if>
+ 			<if test="subsidy != null and subsidy != ''">#{subsidy},</if>
+			<if test="fee1 != null and fee1 != ''">#{fee1},</if>
+ 			<if test="fee2 != null and fee2 != ''">#{fee2},</if>
+			<if test="subsidy1 != null and subsidy1 != ''">#{subsidy1},</if>
+			<if test="subsidy2 != null and subsidy2 != ''">#{subsidy2},</if>
+			<if test="fee3 != null and fee3 != ''">#{fee3},</if>
+			<if test="fee4 != null and fee4 != ''">#{fee4},</if>
+			<if test="subsidy3 != null and subsidy3 != ''">#{subsidy3},</if>
+			<if test="subsidy4 != null and subsidy4 != ''">#{subsidy4},</if>
+			<if test="fee5 != null and fee5 != ''">#{fee5},</if>
+			<if test="subsidy5 != null and subsidy5 != ''">#{subsidy5},</if>
+			<if test="subtotal != null and subtotal != ''">#{subtotal},</if>
+			<if test="channelManager != null and channelManager != ''">#{channelManager}</if>
+ 		)
+	</insert>
+
+</mapper> 

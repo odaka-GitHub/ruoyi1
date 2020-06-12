@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.ManagementMapper">
+
+	<resultMap type="Management" id="ManagementResult">
+		<id     property="id"        column="id"       />
+		<result property="suppliesName"      column="suppliesName"     />
+		<result property="unit"      column="unit"     />
+		<result property="applyNum"      column="applyNum"     />
+		<result property="stockNum"        column="stockNum"        />
+		<result property="applyNum2"      column="applyNum2"     />
+		<result property="applyNum3"        column="applyNum3"        />
+	</resultMap>
+	
+	<sql id="selectManagementVo">
+        select id, suppliesName, unit, applyNum, stockNum, applyNum2,applyNum3
+		from management
+    </sql>
+	
+	<select id="selectManagementList" parameterType="Management" resultMap="ManagementResult">
+	    <include refid="selectManagementVo"/>
+		<where>
+			<if test="suppliesName != null and suppliesName != ''">
+				AND suppliesName like concat('%', #{suppliesName}, '%')
+			</if>
+			<if test="unit != null and unit != ''">
+				AND unit = #{unit}
+			</if>
+		</where>
+	</select>
+	
+	<select id="selectManagementAll" resultMap="ManagementResult">
+		<include refid="selectManagementVo"/>
+	</select>
+	
+	<select id="selectManagementById" parameterType="Long" resultMap="ManagementResult">
+		<include refid="selectManagementVo"/>
+		where id = #{id}
+	</select>
+	
+ 	<delete id="deleteManagementByIds" parameterType="Long">
+ 		delete from management where id in
+ 		<foreach collection="array" item="id" open="(" separator="," close=")">
+ 			#{id}
+        </foreach> 
+ 	</delete>
+ 	
+ 	<update id="updateManagement" parameterType="Management">
+ 		update management
+ 		<set>
+ 			<if test="suppliesName != null and suppliesName != ''">suppliesName = #{suppliesName},</if>
+ 			<if test="unit != null and unit != ''">unit = #{unit},</if>
+ 			<if test="applyNum != null and applyNum != ''">applyNum = #{applyNum},</if>
+ 			<if test="stockNum != null and stockNum != ''">stockNum = #{stockNum},</if>
+			<if test="applyNum2 != null and applyNum2 != ''">applyNum2 = #{applyNum2},</if>
+ 			<if test="applyNum3 != null">applyNum3 = #{applyNum3}</if>
+ 		</set>
+ 		where id = #{id}
+	</update>
+ 	
+ 	<insert id="insertManagement" parameterType="Management" useGeneratedKeys="true" keyProperty="id">
+ 		insert into management(
+ 			<if test="id != null and id != 0">id,</if>
+ 			<if test="suppliesName != null and suppliesName != ''">suppliesName,</if>
+ 			<if test="unit != null and unit != ''">unit,</if>
+ 			<if test="applyNum != null and applyNum != ''">applyNum,</if>
+ 			<if test="stockNum != null and stockNum != ''">stockNum,</if>
+		    <if test="applyNum2 != null and applyNum2 != ''">applyNum2,</if>
+ 			<if test="applyNum3 != null and applyNum3 != ''">applyNum3</if>
+ 		)values(
+ 			<if test="id != null and id != 0">#{id},</if>
+ 			<if test="suppliesName != null and suppliesName != ''">#{suppliesName},</if>
+ 			<if test="unit != null and unit != ''">#{unit},</if>
+ 			<if test="applyNum != null and applyNum != ''">#{applyNum},</if>
+ 			<if test="stockNum != null and stockNum != ''">#{stockNum},</if>
+			<if test="applyNum2 != null and applyNum2 != ''">#{applyNum2},</if>
+ 			<if test="applyNum3 != null and applyNum3 != ''">#{applyNum3}</if>
+ 		)
+	</insert>
+
+</mapper> 
